@@ -6,8 +6,7 @@ from flask.testing import FlaskClient
 # Ensure the backend directory is in Python's path
 sys.path.insert(0, os.path.abspath(os.path.dirname(os.path.dirname(__file__))))
 
-from app import app  # Import the Flask app after fixing the path
-
+from app import app  # Import the Flask app correctly
 
 @pytest.fixture
 def client() -> FlaskClient:
@@ -18,19 +17,19 @@ def client() -> FlaskClient:
     with app.test_client() as client:
         yield client
 
-
 def test_analyze_endpoint(client):
     """
-    Tests the /analyze endpoint with a sample code snippet.
+    Tests the /analyze endpoint to ensure it returns optimization suggestions.
     """
-    response = client.post('/analyze', json={"code": "def add(a, b): return a + b"})
+    response = client.post('/analyze', json={"code": "if x > 0: print(x)"})
 
-    # Check if the request was successful (HTTP 200)
+    # Ensure the request was successful (HTTP 200)
     assert response.status_code == 200
 
-    # Ensure the response contains the expected key
-    assert "improvements" in response.json
+    # Ensure the response contains JSON
+    data = response.get_json()
+    assert "improvements" in data
 
-    # Ensure AI response is a string (not empty)
-    assert isinstance(response.json["improvements"], str)
-    assert len(response.json["improvements"]) > 0
+    # Ensure the returned suggestion is a string and not empty
+    assert isinstance(data["improvements"], str)
+    assert len(data["improvements"]) > 0
