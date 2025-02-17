@@ -12,7 +12,7 @@ def analyze_code():
     if not code:
         return jsonify({"error": "No code provided"}), 400
 
-    # 🔥 Instead of OpenAI, return hardcoded suggestions
+    # Instead of OpenAI, return hardcoded suggestions
     sample_suggestions = {
         "if": "Consider using a ternary operator for simple if-else conditions.",
         "for": "Use list comprehensions for better readability instead of 'for' loops.",
