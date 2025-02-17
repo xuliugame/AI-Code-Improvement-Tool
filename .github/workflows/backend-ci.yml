@@ -1,15 +1,9 @@
 name: Backend CI
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+on: [push, pull_request]
 
 jobs:
-  test:
+  test-backend:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -20,10 +14,10 @@ jobs:
         with:
           python-version: '3.9'
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: |
-          cd backend
-          pip install -r requirements.txt
+          python -m pip install --upgrade pip
+          pip install -r backend/requirements.txt
 
       - name: Run Tests
         run: |
