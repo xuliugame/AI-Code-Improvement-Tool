@@ -1,15 +1,9 @@
 name: Frontend CI
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+on: [push, pull_request]
 
 jobs:
-  test:
+  test-frontend:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -20,7 +14,7 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: |
           cd frontend
           npm install
@@ -28,4 +22,4 @@ jobs:
       - name: Run Tests
         run: |
           cd frontend
-          npm test
+          CI=true npm test
