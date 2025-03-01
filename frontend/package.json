@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "description": "React frontend for AI Code Improvement Tool",
-  "homepage": "https://your-username.github.io/your-repo",
+  "homepage": "https://xuliugame.github.io/AI-Code-Improvement-Tool",
   "main": "src/index.js",
   "dependencies": {
     "react": "^18.2.0",
@@ -12,6 +12,7 @@
     "web-vitals": "^3.0.0"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "gh-pages": "^5.0.0"
   },
   "scripts": {
@@ -35,7 +36,8 @@
   },
   "eslintConfig": {
     "extends": [
-      "react-app"
+      "react-app",
+      "react-app/jest"
     ]
   }
 }
