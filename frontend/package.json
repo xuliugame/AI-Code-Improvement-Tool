@@ -12,7 +12,6 @@
     "web-vitals": "^3.0.0"
   },
   "devDependencies": {
-    "cross-env": "^7.0.3",
     "gh-pages": "^5.0.0"
   },
   "scripts": {
@@ -36,8 +35,7 @@
   },
   "eslintConfig": {
     "extends": [
-      "react-app",
-      "react-app/jest"
+      "react-app"
     ]
   }
 }
