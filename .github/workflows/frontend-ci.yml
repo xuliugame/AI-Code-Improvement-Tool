@@ -31,4 +31,7 @@ jobs:
         with:
           branch: gh-pages
           folder: frontend/build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
 
