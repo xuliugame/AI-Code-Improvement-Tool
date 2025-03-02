@@ -1,0 +1,96 @@
+/* General Page Setup */
+body {
+  margin: 0;
+  padding: 0;
+  background: #f5f7fa;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Center everything horizontally */
+.page-container {
+  max-width: 800px; /* Wider layout */
+  margin: 40px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 20px;
+}
+
+/* Title */
+.title {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 26px;
+  color: #333;
+}
+
+/* Box Container */
+.box {
+  width: 100%;
+  max-width: 800px; /* Same max width as container for consistency */
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px; /* Space between boxes */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Box Title */
+.box-title {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 20px;
+  color: #555;
+  text-align: center;
+}
+
+/* Code Input */
+.code-input {
+  width: 100%;
+  min-height: 150px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 14px;
+  resize: none; /* Remove manual resizing */
+  font-family: Consolas, "Courier New", monospace;
+  box-sizing: border-box;
+}
+
+/* Generate Button */
+.generate-btn {
+  display: block;
+  width: 100%;
+  background: #007bff;
+  color: white;
+  border: none;
+  margin-top: 15px;
+  padding: 12px 0;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.generate-btn:hover {
+  background: #0056b3;
+}
+
+/* Output Box */
+.output-box {
+  text-align: left;
+  background: #fefefe;
+}
+
+.output {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-size: 14px;
+  font-family: Consolas, "Courier New", monospace;
+  padding: 10px;
+  background: #f9f9f9;
+  border-radius: 5px;
+  border: 1px solid #e5e5e5;
+  min-height: 150px; /* Consistent box height */
+  margin-top: 10px;
+}

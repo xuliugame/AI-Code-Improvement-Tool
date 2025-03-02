@@ -2,11 +2,15 @@ import sys
 import os
 import pytest
 from flask.testing import FlaskClient
+from dotenv import load_dotenv
 
 # Ensure the backend directory is in Python's path
 sys.path.insert(0, os.path.abspath(os.path.dirname(os.path.dirname(__file__))))
 
 from app import app  # Import the Flask app correctly
+
+# Load environment variables (including OpenAI API Key)
+load_dotenv()
 
 @pytest.fixture
 def client() -> FlaskClient:
@@ -19,7 +23,7 @@ def client() -> FlaskClient:
 
 def test_analyze_endpoint(client):
     """
-    Tests the /analyze endpoint to ensure it returns optimization suggestions.
+    Tests the /analyze endpoint with a real OpenAI API call.
     """
     response = client.post('/analyze', json={"code": "if x > 0: print(x)"})
 

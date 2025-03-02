@@ -1,28 +1,43 @@
+import os
 import openai
-from config import OPENAI_API_KEY
+from dotenv import load_dotenv
 
-# Set OpenAI API Key
-openai.api_key = OPENAI_API_KEY
+# Load environment variables
+load_dotenv()
 
-def get_code_improvements(code):
+# Retrieve OpenAI API Key
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
+# Ensure OpenAI API Key is set
+if not OPENAI_API_KEY:
+    raise ValueError("Error: OpenAI API Key not found. Please check your .env file.")
+
+# Initialize OpenAI client
+client = openai.OpenAI(api_key=OPENAI_API_KEY)
+
+def optimize_code(code_snippet):
     """
-    Sends code to OpenAI API for analysis and returns optimization suggestions.
-    """
-    prompt = f"""
-    Here is a piece of code:
-    ```
-    {code}
-    ```
-    Please analyze this code, identify potential issues, and provide detailed suggestions along with an optimized version.
+    Sends the provided code snippet to OpenAI for optimization suggestions.
     """
     try:
-        response = openai.Completion.create(
-            engine="text-davinci-003",  # You can also use GPT-4
-            prompt=prompt,
-            max_tokens=1000,
-            temperature=0.5,
-            n=1
+        response = client.chat.completions.create(
+            model="gpt-4o",  # Use "gpt-4o" or a supported model
+            messages=[
+                {"role": "system", "content": "You are an AI assistant helping improve code quality."},
+                {"role": "user", "content": f"Analyze and optimize this code:\n{code_snippet}"}
+            ]
         )
-        return response.choices[0].text.strip()
+
+        # Extract the optimized suggestion from the response
+        optimized_code = response.choices[0].message.content.strip()
+        return optimized_code
+
+    except openai.APIConnectionError:
+        return "Error: Unable to connect to OpenAI API. Check your internet connection."
+    except openai.AuthenticationError:
+        return "Error: Invalid OpenAI API Key. Please verify your key."
+    except openai.APIError as e:
+        return f"Error: OpenAI API returned an error: {e}"
     except Exception as e:
         return f"Error: {str(e)}"
+
