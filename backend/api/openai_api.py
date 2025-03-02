@@ -2,15 +2,16 @@ import os
 import openai
 from dotenv import load_dotenv
 
-# Load environment variables
-load_dotenv()
+# Load environment variables from .env file (ONLY for local development)
+if os.path.exists(".env"):
+    load_dotenv()
 
 # Retrieve OpenAI API Key
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 # Ensure OpenAI API Key is set
 if not OPENAI_API_KEY:
-    raise ValueError("Error: OpenAI API Key not found. Please check your .env file.")
+    raise ValueError("Error: OpenAI API Key not found. Please set it in GitHub Secrets or a local .env file.")
 
 # Initialize OpenAI client
 client = openai.OpenAI(api_key=OPENAI_API_KEY)
@@ -40,4 +41,3 @@ def optimize_code(code_snippet):
         return f"Error: OpenAI API returned an error: {e}"
     except Exception as e:
         return f"Error: {str(e)}"
-
