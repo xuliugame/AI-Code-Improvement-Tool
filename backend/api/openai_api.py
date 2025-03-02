@@ -2,12 +2,11 @@ import os
 import openai
 from dotenv import load_dotenv
 
-# Load environment variables from .env file (ONLY for local development)
-if os.path.exists(".env"):
-    load_dotenv()
+# Load local .env file (for local development)
+load_dotenv()
 
-# Retrieve OpenAI API Key
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+# Try to get API key from GitHub Secrets first, then fallback to .env
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY") or os.environ.get("OPENAI_API_KEY")
 
 # Ensure OpenAI API Key is set
 if not OPENAI_API_KEY:
@@ -22,7 +21,7 @@ def optimize_code(code_snippet):
     """
     try:
         response = client.chat.completions.create(
-            model="gpt-4o",  # Use "gpt-4o" or a supported model
+            model="gpt-4o",
             messages=[
                 {"role": "system", "content": "You are an AI assistant helping improve code quality."},
                 {"role": "user", "content": f"Analyze and optimize this code:\n{code_snippet}"}
@@ -30,8 +29,7 @@ def optimize_code(code_snippet):
         )
 
         # Extract the optimized suggestion from the response
-        optimized_code = response.choices[0].message.content.strip()
-        return optimized_code
+        return response.choices[0].message.content.strip()
 
     except openai.APIConnectionError:
         return "Error: Unable to connect to OpenAI API. Check your internet connection."
@@ -41,3 +39,4 @@ def optimize_code(code_snippet):
         return f"Error: OpenAI API returned an error: {e}"
     except Exception as e:
         return f"Error: {str(e)}"
+
