@@ -1,10 +1,13 @@
 {
   "files": {
-    "main.js": "/AI-Code-Improvement-Tool/static/js/main.9ec88e82.js",
+    "main.css": "/AI-Code-Improvement-Tool/static/css/main.59af36a4.css",
+    "main.js": "/AI-Code-Improvement-Tool/static/js/main.72c03667.js",
     "index.html": "/AI-Code-Improvement-Tool/index.html",
-    "main.9ec88e82.js.map": "/AI-Code-Improvement-Tool/static/js/main.9ec88e82.js.map"
+    "main.59af36a4.css.map": "/AI-Code-Improvement-Tool/static/css/main.59af36a4.css.map",
+    "main.72c03667.js.map": "/AI-Code-Improvement-Tool/static/js/main.72c03667.js.map"
   },
   "entrypoints": [
-    "static/js/main.9ec88e82.js"
+    "static/css/main.59af36a4.css",
+    "static/js/main.72c03667.js"
   ]
 }
