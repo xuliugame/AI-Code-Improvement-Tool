@@ -1,6 +1,6 @@
 # AI Code Improvement Tool
 
-This project is a **web-based application** that allows users to submit code snippets and receive optimization suggestions using **OpenAI's GPT-4o**. The system consists of a **React frontend** and a **Flask backend**, deployed on **GitHub Pages** for frontend and **GitHub Actions** for automated testing.
+This project is a **web application** that allows users to submit code snippets and receive optimization suggestions using **OpenAI's GPT-4o**. The system consists of a **React frontend** and a **Flask backend**, deployed on **GitHub Pages** for frontend and **GitHub Actions** for automated testing.
 
 ## Features
 
