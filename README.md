@@ -16,7 +16,7 @@ This project is a **web application** that allows users to submit code snippets 
 
 Ensure you have the following installed:
 
-- Python 3.11+
+- Python 
 - Node.js (for frontend)
 - OpenAI API key (stored in `.env` locally and in GitHub Secrets for deployment)
 
