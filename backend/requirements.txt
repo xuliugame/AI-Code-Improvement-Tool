@@ -1,5 +1,9 @@
-Flask
-flask_cors
-pytest
-python-dotenv
+flask
+flask-cors
+flask-sqlalchemy
+flask-bcrypt
+flask-jwt-extended
 openai
+python-dotenv
+psycopg2-binary
+
