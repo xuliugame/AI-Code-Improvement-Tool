@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, FormControl, InputLabel, Select, MenuItem, Button } from '@mui/material';
+import { FormControl, InputLabel, Select, MenuItem, Button } from '@mui/material';
 
 const CodeInput = ({ code, setCode, language, setLanguage, onGenerate }) => {
   return (
