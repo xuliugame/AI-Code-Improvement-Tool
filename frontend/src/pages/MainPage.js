@@ -37,7 +37,7 @@ const MainPage = () => {
     try {
       const response = await codeService.optimize(code, language);
       setSuggestions(response.data.suggestions || "No suggestions returned.");
-      loadHistory(); // Refresh history records
+      loadHistory();
     } catch (error) {
       console.error('Error optimizing code:', error);
     }
