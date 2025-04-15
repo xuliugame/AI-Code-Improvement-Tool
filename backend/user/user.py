@@ -54,3 +54,8 @@ def profile():
         'username': user.username,
         'created_at': user.created_at.isoformat()
     }), 200
+
+@auth_bp.route('/user', methods=['GET'])
+@jwt_required()
+def get_user_info():
+    return profile()
