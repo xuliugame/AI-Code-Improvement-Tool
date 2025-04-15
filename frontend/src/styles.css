@@ -8,12 +8,13 @@ body {
 
 /* Center everything horizontally */
 .page-container {
-  max-width: 800px; /* Wider layout */
-  margin: 40px auto;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0 20px;
+  flex-direction: row;
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 1800px;
+  margin: 0 auto;
+  height: calc(100vh - 64px);
 }
 
 /* Title */
@@ -26,36 +27,41 @@ body {
 
 /* Box Container */
 .box {
-  width: 100%;
-  max-width: 800px; /* Same max width as container for consistency */
+  flex: 1;
   background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  margin-bottom: 30px; /* Space between boxes */
-  padding: 20px;
-  box-sizing: border-box;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 /* Box Title */
 .box-title {
-  margin-top: 0;
-  margin-bottom: 15px;
-  font-size: 20px;
-  color: #555;
-  text-align: center;
+  margin: 0 0 1rem 0;
+  color: #1976d2;
+  font-size: 1.5rem;
 }
 
 /* Code Input */
 .code-input {
+  flex: 1;
   width: 100%;
-  min-height: 150px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 10px;
+  padding: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-family: 'Consolas', 'Monaco', monospace;
   font-size: 14px;
-  resize: none; /* Remove manual resizing */
-  font-family: Consolas, "Courier New", monospace;
-  box-sizing: border-box;
+  line-height: 1.5;
+  resize: none;
+  margin-bottom: 1rem;
+}
+
+.code-input:focus {
+  outline: none;
+  border-color: #1976d2;
+  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
 }
 
 /* Generate Button */
@@ -78,19 +84,45 @@ body {
 
 /* Output Box */
 .output-box {
-  text-align: left;
-  background: #fefefe;
+  flex: 1;
 }
 
 .output {
-  white-space: pre-wrap;
-  word-wrap: break-word;
+  flex: 1;
+  padding: 1rem;
+  background: #f5f5f5;
+  border-radius: 4px;
+  font-family: 'Consolas', 'Monaco', monospace;
   font-size: 14px;
-  font-family: Consolas, "Courier New", monospace;
-  padding: 10px;
-  background: #f9f9f9;
-  border-radius: 5px;
-  border: 1px solid #e5e5e5;
-  min-height: 150px; /* Consistent box height */
-  margin-top: 10px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-y: auto;
+  margin: 0;
+}
+
+.history-box {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.history-box pre {
+  background: #f5f5f5;
+  padding: 0.5rem;
+  border-radius: 4px;
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 12px;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  margin: 0.5rem 0;
+}
+
+@media (max-width: 1200px) {
+  .page-container {
+    flex-direction: column;
+    height: auto;
+  }
+  
+  .box {
+    height: 50vh;
+  }
 }

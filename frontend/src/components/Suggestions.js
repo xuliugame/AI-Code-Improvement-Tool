@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react';
 
-function Suggestions({ suggestions }) {
+const Suggestions = ({ suggestions }) => {
   return (
-    <div className="suggestions">
-      <h2>Optimization Suggestions</h2>
-      <p>{suggestions}</p>
+    <div className="box output-box">
+      <h2 className="box-title">Optimization Suggestions</h2>
+      <pre className="output">{suggestions}</pre>
     </div>
   );
-}
+};
 
 export default Suggestions;

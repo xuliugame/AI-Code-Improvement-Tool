@@ -1,53 +1,38 @@
-import React, { useState } from "react";
-import "./styles.css";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import Login from './pages/Login';
+import MainPage from './pages/MainPage';
 
-function App() {
-  const [code, setCode] = useState("");
-  const [suggestions, setSuggestions] = useState("");
+const PrivateRoute = ({ children }) => {
+  const { isAuthenticated, loading } = useAuth();
+  
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+  
+  return isAuthenticated ? children : <Navigate to="/login" />;
+};
 
-  const handleGenerate = async () => {
-    setSuggestions("Generating suggestions...");
-    try {
-      const response = await fetch("http://127.0.0.1:5000/analyze", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ code }),
-      });
-
-      const data = await response.json();
-      setSuggestions(data.improvements || "No suggestions returned.");
-    } catch (error) {
-      setSuggestions("Error generating suggestions.");
-    }
-  };
-
+const App = () => {
   return (
-    <div className="page-container">
-      <h1 className="title">AI Code Improvement Tool</h1>
-
-      {/* Code Input Box */}
-      <div className="box input-box">
-        <h2 className="box-title">Enter Your Code</h2>
-        <textarea
-          className="code-input"
-          value={code}
-          onChange={(e) => setCode(e.target.value)}
-          placeholder="Paste your code here..."
-        />
-        <button className="generate-btn" onClick={handleGenerate}>
-          Generate Suggestions
-        </button>
-      </div>
-
-      {/* Suggestions Box */}
-      <div className="box output-box">
-        <h2 className="box-title">Optimization Suggestions</h2>
-        <pre className="output">{suggestions}</pre>
-      </div>
-    </div>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/"
+            element={
+              <PrivateRoute>
+                <MainPage />
+              </PrivateRoute>
+            }
+          />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
-}
+};
 
 export default App;
