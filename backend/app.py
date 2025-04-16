@@ -1,33 +1,33 @@
-# 导入必要的库和模块
+# Import necessary libraries and modules
 from dotenv import load_dotenv
-load_dotenv()  # 加载环境变量
+load_dotenv()  # Load environment variables
 from flask import Flask, jsonify
-from flask_cors import CORS  # 用于处理跨域请求
-from user.models import db  # 数据库模型
-from user.user import auth_bp  # 用户认证蓝图
-from api.openai_api import api_bp  # OpenAI API蓝图
-from config import Config  # 应用配置
+from flask_cors import CORS  # For handling cross-origin requests
+from user.models import db  # Database models
+from user.user import auth_bp  # User authentication blueprint
+from api.openai_api import api_bp  # OpenAI API blueprint
+from config import Config  # Application configuration
 import os
-from flask_jwt_extended import JWTManager  # JWT认证管理
+from flask_jwt_extended import JWTManager  # JWT authentication management
 
-# 创建Flask应用实例
+# Create Flask application instance
 app = Flask(__name__)
-app.config.from_object(Config)  # 加载配置
+app.config.from_object(Config)  # Load configuration
 
-# JWT配置
-app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY', 'dev-jwt-secret')  # JWT密钥
-app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 3600  # Token有效期1小时
-app.config['JWT_TOKEN_LOCATION'] = ['headers']  # Token位置
-app.config['JWT_HEADER_NAME'] = 'Authorization'  # Token头名称
-app.config['JWT_HEADER_TYPE'] = 'Bearer'  # Token类型
+# JWT configuration
+app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY', 'dev-jwt-secret')  # JWT secret key
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 3600  # Token validity period (1 hour)
+app.config['JWT_TOKEN_LOCATION'] = ['headers']  # Token location
+app.config['JWT_HEADER_NAME'] = 'Authorization'  # Token header name
+app.config['JWT_HEADER_TYPE'] = 'Bearer'  # Token type
 
-CORS(app)  # 启用跨域支持
-db.init_app(app)  # 初始化数据库
+CORS(app)  # Enable cross-origin support
+db.init_app(app)  # Initialize database
 
-# 初始化JWT管理器
+# Initialize JWT manager
 jwt = JWTManager(app)
 
-# Token过期回调函数
+# Token expiration callback function
 @jwt.expired_token_loader
 def expired_token_callback(jwt_header, jwt_payload):
     return jsonify({
@@ -35,7 +35,7 @@ def expired_token_callback(jwt_header, jwt_payload):
         'error': 'token_expired'
     }), 401
 
-# 无效Token回调函数
+# Invalid token callback function
 @jwt.invalid_token_loader
 def invalid_token_callback(error):
     return jsonify({
@@ -43,7 +43,7 @@ def invalid_token_callback(error):
         'error': str(error)
     }), 401
 
-# 未授权访问回调函数
+# Unauthorized access callback function
 @jwt.unauthorized_loader
 def unauthorized_callback(error):
     return jsonify({
@@ -51,7 +51,7 @@ def unauthorized_callback(error):
         'error': str(error)
     }), 401
 
-# Token需要刷新回调函数
+# Token refresh required callback function
 @jwt.needs_fresh_token_loader
 def token_not_fresh_callback(jwt_header, jwt_payload):
     return jsonify({
@@ -59,20 +59,20 @@ def token_not_fresh_callback(jwt_header, jwt_payload):
         'error': 'fresh_token_required'
     }), 401
 
-# 注册蓝图
-app.register_blueprint(auth_bp)  # 注册用户认证蓝图
-app.register_blueprint(api_bp)  # 注册API蓝图
+# Register blueprints
+app.register_blueprint(auth_bp)  # Register user authentication blueprint
+app.register_blueprint(api_bp)  # Register API blueprint
 
-# 健康检查路由
+# Health check route
 @app.route("/")
 def health_check():
     return "OK", 200
 
-# 主程序入口
+# Main program entry point
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()  # 创建数据库表
-    app.run(debug=True)  # 启动应用，开启调试模式
+        db.create_all()  # Create database tables
+    app.run(debug=True)  # Start application in debug mode
 
 
 
