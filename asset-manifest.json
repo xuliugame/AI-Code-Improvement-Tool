@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/AI-Code-Improvement-Tool/static/css/main.044a1b86.css",
-    "main.js": "/AI-Code-Improvement-Tool/static/js/main.e4c55f4a.js",
+    "main.css": "/AI-Code-Improvement-Tool/static/css/main.d125c10a.css",
+    "main.js": "/AI-Code-Improvement-Tool/static/js/main.8c9ee18b.js",
     "index.html": "/AI-Code-Improvement-Tool/index.html",
-    "main.044a1b86.css.map": "/AI-Code-Improvement-Tool/static/css/main.044a1b86.css.map",
-    "main.e4c55f4a.js.map": "/AI-Code-Improvement-Tool/static/js/main.e4c55f4a.js.map"
+    "main.d125c10a.css.map": "/AI-Code-Improvement-Tool/static/css/main.d125c10a.css.map",
+    "main.8c9ee18b.js.map": "/AI-Code-Improvement-Tool/static/js/main.8c9ee18b.js.map"
   },
   "entrypoints": [
-    "static/css/main.044a1b86.css",
-    "static/js/main.e4c55f4a.js"
+    "static/css/main.d125c10a.css",
+    "static/js/main.8c9ee18b.js"
   ]
 }
