@@ -4,6 +4,22 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 // History component for displaying code optimization history
 const History = ({ history, onDelete }) => {
+  // Function to format the date string
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const options = {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: true,
+      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
+    };
+    return date.toLocaleString('en-US', options);
+  };
+
   return (
     <div className="box history-box">
       <h2 className="box-title">History</h2>
@@ -21,7 +37,7 @@ const History = ({ history, onDelete }) => {
             >
               <ListItemText
                 // Display language and timestamp
-                primary={`${item.language} - ${new Date(item.created_at).toLocaleString()}`}
+                primary={`${item.language} - ${formatDate(item.created_at)}`}
                 // Display original and optimized code
                 secondary={
                   <div>

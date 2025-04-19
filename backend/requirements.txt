@@ -6,4 +6,5 @@ flask-jwt-extended
 openai
 python-dotenv
 psycopg2-binary
+pytz
 

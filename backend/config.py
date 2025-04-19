@@ -6,8 +6,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class Config:
-    # Database configuration - using SQLite for development
-    SQLALCHEMY_DATABASE_URI = "sqlite:///test.db"
+    # Database configuration - using PostgreSQL
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'postgresql://postgres:a111778838@localhost:5432/aicode_db')
     # Disable SQLAlchemy event system for better performance
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     # Secret key for Flask session management

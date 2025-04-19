@@ -15,7 +15,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)  # Primary key
     username = db.Column(db.String(80), unique=True, nullable=False)  # Unique username
     password = db.Column(db.String(255), nullable=False)  # Hashed password
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)  # Account creation timestamp
+    created_at = db.Column(db.DateTime, default=datetime.now)  # Account creation timestamp
 
     def save(self):
         """Save the user object to the database"""
@@ -46,7 +46,7 @@ class CodeHistory(db.Model):
     optimized_code = db.Column(db.Text, nullable=False)  # Optimized code generated
     optimization_suggestions = db.Column(db.Text, nullable=False)  # Suggestions for optimization
     language = db.Column(db.String(50), nullable=False)  # Programming language used
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)  # Timestamp of optimization
+    created_at = db.Column(db.DateTime, default=datetime.now)  # Timestamp of optimization using local time
 
     # Relationship with User model
     user = db.relationship('User', backref=db.backref('history', lazy=True))

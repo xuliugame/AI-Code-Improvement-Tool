@@ -4,6 +4,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from openai import OpenAI
 import os
 from user.models import CodeHistory, db
+from datetime import datetime
 
 # Create API blueprint and initialize OpenAI client
 api_bp = Blueprint('api', __name__)
@@ -65,7 +66,7 @@ def get_history():
         'optimized_code': history.optimized_code,
         'optimization_suggestions': history.optimization_suggestions,
         'language': history.language,
-        'created_at': history.created_at.isoformat()
+        'created_at': history.created_at.isoformat()  # Send ISO format timestamp
     } for history in histories]), 200
 
 @api_bp.route('/history/<int:history_id>', methods=['DELETE'])
