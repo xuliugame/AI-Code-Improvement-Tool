@@ -68,10 +68,20 @@ app.register_blueprint(api_bp)  # Register API blueprint
 def health_check():
     return "OK", 200
 
+def init_database():
+    """Initialize database tables"""
+    with app.app_context():
+        try:
+            # Create all tables
+            db.create_all()
+            print("Database tables created successfully!")
+        except Exception as e:
+            print(f"Error creating database tables: {str(e)}")
+            raise
+
 # Main program entry point
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()  # Create database tables
+    init_database()  # Initialize database tables
     app.run(debug=True)  # Start application in debug mode
 
 

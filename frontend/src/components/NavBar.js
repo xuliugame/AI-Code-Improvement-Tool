@@ -1,33 +1,74 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button } from '@mui/material';
+import { orange } from '@mui/material/colors';
 import { useAuth } from '../contexts/AuthContext';
 
 // Navigation bar component
 const NavBar = () => {
-  // Get authentication functions and user data from context
-  const { logout, user } = useAuth();
-  
-  // Handle logout button click
-  const handleLogout = () => {
-    logout();
-  };
+  const { user, logout } = useAuth();
 
-  // Render navigation bar
   return (
-    <AppBar position="static">
-      <Toolbar>
+    <AppBar 
+      position="static" 
+      sx={{ 
+        bgcolor: orange[700],
+        height: '80px', // Fixed height for navbar
+      }}
+    >
+      <Toolbar sx={{ height: '100%' }}>
         {/* Application title */}
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <Typography 
+          variant="h5" 
+          component="div" 
+          sx={{ 
+            flexGrow: 1,
+            fontSize: {
+              xs: '1.4rem',    // Extra small devices
+              sm: '1.6rem',    // Small devices
+              md: '1.8rem',    // Medium devices
+              lg: '2rem',      // Large devices
+              xl: '2.2rem',    // Extra large devices
+            },
+            fontWeight: 500
+          }}
+        >
           AI Code Improvement Tool
         </Typography>
         {/* User information and logout button */}
         {user && (
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <Typography>Welcome, {user.username}</Typography>
-            <Button color="inherit" onClick={handleLogout}>
-              Logout
+          <>
+            <Typography 
+              variant="h6" 
+              sx={{ 
+                mr: 3,
+                fontSize: {
+                  xs: '1rem',
+                  sm: '1.1rem',
+                  md: '1.2rem',
+                  lg: '1.3rem',
+                },
+                display: { xs: 'none', sm: 'block' }
+              }}
+            >
+              Welcome, {user.username}
+            </Typography>
+            <Button 
+              color="inherit" 
+              onClick={logout}
+              sx={{ 
+                fontSize: {
+                  xs: '0.9rem',
+                  sm: '1rem',
+                  md: '1.1rem',
+                },
+                fontWeight: 500,
+                px: { xs: 2, sm: 3 },
+                py: { xs: 0.5, sm: 0.7 }
+              }}
+            >
+              LOGOUT
             </Button>
-          </Box>
+          </>
         )}
       </Toolbar>
     </AppBar>

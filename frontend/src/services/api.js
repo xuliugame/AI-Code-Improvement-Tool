@@ -1,12 +1,8 @@
 // Import axios for HTTP requests
 import axios from 'axios';
 
-// API base URL
-const API_URL = 'http://localhost:5000';
-
 // Create axios instance with default configuration
 const api = axios.create({
-  baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -36,9 +32,11 @@ api.interceptors.response.use(
   (error) => {
     // Handle 401 Unauthorized errors
     if (error.response && error.response.status === 401) {
-      // Clear token and redirect to login page
-      localStorage.removeItem('token');
-      window.location.href = '/login';
+      // 只在非登录页面时才重定向
+      if (!window.location.pathname.includes('/login')) {
+        localStorage.removeItem('token');
+        window.location.href = '/login';
+      }
     }
     return Promise.reject(error);
   }
@@ -47,27 +45,52 @@ api.interceptors.response.use(
 // Authentication service methods
 export const authService = {
   // Register new user
-  register: (username, password) => {
-    console.log('Registering user:', username);
-    return api.post('/register', { username, password });
+  register: async (username, password) => {
+    try {
+      const response = await api.post('/register', { username, password });
+      return { success: true, data: response.data };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.response?.data?.message || 'Registration failed'
+      };
+    }
   },
+  
   // Login user
-  login: (username, password) => {
-    console.log('Logging in user:', username);
-    return api.post('/login', { username, password });
+  login: async (username, password) => {
+    try {
+      const response = await api.post('/login', { username, password });
+      return { success: true, data: response.data };
+    } catch (error) {
+      // 不要在登录失败时重定向
+      return {
+        success: false,
+        error: error.response?.data?.message || 'Invalid username or password'
+      };
+    }
   },
+  
   // Get user profile
   getProfile: () => api.get('/profile'),
 };
 
-// Code optimization service methods
+// Code service methods
 export const codeService = {
   // Optimize code
-  optimize: (code, language) => api.post('/optimize', { code, language }),
+  optimizeCode: (code, language) => {
+    return api.post('/optimize', { code, language });
+  },
+  
   // Get optimization history
-  getHistory: () => api.get('/history'),
-  // Delete history entry
-  deleteHistory: (id) => api.delete(`/history/${id}`),
+  getHistory: () => {
+    return api.get('/history');
+  },
+  
+  // Delete history item
+  deleteHistory: (id) => {
+    return api.delete(`/history/${id}`);
+  },
 };
 
 // Export default axios instance

@@ -34,12 +34,22 @@ const MainPage = () => {
   };
 
   const handleOptimize = async () => {
+    if (!code.trim()) {
+      setSuggestions("Please enter some code first.");
+      return;
+    }
+
     try {
-      const response = await codeService.optimize(code, language);
-      setSuggestions(response.data.suggestions || "No suggestions returned.");
-      loadHistory();
+      const response = await codeService.optimizeCode(code, language);
+      if (response.data) {
+        setSuggestions(response.data.suggestions || response.data.optimized_code || "No suggestions returned.");
+        await loadHistory();  // 重新加载历史记录
+      } else {
+        setSuggestions("No response received from the server.");
+      }
     } catch (error) {
       console.error('Error optimizing code:', error);
+      setSuggestions("Error: " + (error.response?.data?.message || error.message || "Failed to optimize code"));
     }
   };
 
@@ -47,7 +57,7 @@ const MainPage = () => {
     <div>
       <NavBar />
       <div className="page-container">
-        <CodeInput 
+        <CodeInput
           code={code}
           setCode={setCode}
           language={language}

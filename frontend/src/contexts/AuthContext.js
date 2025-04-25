@@ -25,6 +25,7 @@ export const AuthProvider = ({ children }) => {
           // Clear invalid token and set unauthenticated state
           localStorage.removeItem('token');
           setIsAuthenticated(false);
+          setUser(null);
         })
         .finally(() => {
           setLoading(false);
@@ -32,6 +33,7 @@ export const AuthProvider = ({ children }) => {
     } else {
       // No token found, set unauthenticated state
       setIsAuthenticated(false);
+      setUser(null);
       setLoading(false);
     }
   }, []);
@@ -39,34 +41,40 @@ export const AuthProvider = ({ children }) => {
   // Login function
   const login = async (username, password) => {
     try {
-      // Attempt to login and get token
-      const response = await authService.login(username, password);
-      localStorage.setItem('token', response.data.access_token);
-      // Fetch user profile after successful login
-      const profileResponse = await authService.getProfile();
-      setUser(profileResponse.data);
-      setIsAuthenticated(true);
-      return true;
+      const result = await authService.login(username, password);
+      
+      if (result.success) {
+        localStorage.setItem('token', result.data.access_token);
+        setUser(result.data.user);
+        setIsAuthenticated(true);
+      }
+      
+      return result; // 返回完整的结果对象
     } catch (error) {
-      setIsAuthenticated(false);
-      return false;
+      console.error('Login error:', error);
+      return {
+        success: false,
+        error: 'An unexpected error occurred during login'
+      };
     }
   };
 
   // Register function
   const register = async (username, password) => {
     try {
-      // Attempt to register new user
-      await authService.register(username, password);
-      return true;
+      const result = await authService.register(username, password);
+      return result; // Just return the result, don't auto-login
     } catch (error) {
-      return false;
+      console.error('Registration error:', error);
+      return {
+        success: false,
+        error: 'An unexpected error occurred during registration'
+      };
     }
   };
 
   // Logout function
   const logout = () => {
-    // Clear token and user data
     localStorage.removeItem('token');
     setUser(null);
     setIsAuthenticated(false);
@@ -74,7 +82,14 @@ export const AuthProvider = ({ children }) => {
 
   // Provide authentication context to children
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, loading, isAuthenticated }}>
+    <AuthContext.Provider value={{
+      user,
+      login,
+      register,
+      logout,
+      loading,
+      isAuthenticated
+    }}>
       {children}
     </AuthContext.Provider>
   );

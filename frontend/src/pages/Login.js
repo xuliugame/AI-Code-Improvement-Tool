@@ -9,12 +9,15 @@ import {
   Container,
   Paper,
   Alert,
+  Snackbar,
 } from '@mui/material';
+import { orange } from '@mui/material/colors';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [isRegistering, setIsRegistering] = useState(false);
   const { login, register, isAuthenticated } = useAuth();
   const navigate = useNavigate();
@@ -27,30 +30,32 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    e.stopPropagation();
     setError('');
+    setSuccess('');
 
-    try {
-      console.log('Attempting to', isRegistering ? 'register' : 'login', 'with:', username);
-      const success = isRegistering
-        ? await register(username, password)
-        : await login(username, password);
-
-      console.log('Auth result:', success);
-      if (success) {
-        console.log('Authentication successful, navigating to home page');
+    if (isRegistering) {
+      const result = await register(username, password);
+      if (result.success) {
+        setSuccess('Registration successful! Please login with your credentials.');
+        setUsername('');
+        setPassword('');
+        setIsRegistering(false);
+      } else {
+        setError(result.error || 'Registration failed');
+      }
+    } else {
+      const result = await login(username, password);
+      if (result.success) {
         navigate('/');
       } else {
-        const errorMessage = isRegistering
-          ? 'Registration failed. Username may already exist.'
-          : 'Invalid username or password';
-        console.log('Authentication failed:', errorMessage);
-        setError(errorMessage);
+        setError(result.error || 'Invalid username or password');
       }
-    } catch (err) {
-      console.error('Auth error:', err);
-      console.error('Error details:', err.response?.data || err.message);
-      setError('An error occurred. Please try again.');
     }
+  };
+
+  const handleCloseSuccess = () => {
+    setSuccess('');
   };
 
   return (
@@ -73,15 +78,36 @@ const Login = () => {
             width: '100%',
           }}
         >
-          <Typography component="h1" variant="h5">
-            {isRegistering ? 'Register' : 'Sign in'}
+          <Typography 
+            component="h1" 
+            variant="h4"
+            sx={{ 
+              color: orange[700],
+              fontWeight: 600,
+              fontSize: '2.2rem',
+              marginBottom: '1rem'
+            }}
+          >
+            {isRegistering ? 'Register' : 'Login'}
           </Typography>
           {error && (
-            <Alert severity="error" sx={{ mt: 2, width: '100%' }}>
+            <Alert 
+              severity="error" 
+              sx={{ 
+                mt: 2, 
+                width: '100%',
+                mb: 2
+              }}
+            >
               {error}
             </Alert>
           )}
-          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1, width: '100%' }}>
+          <Box 
+            component="form" 
+            onSubmit={handleSubmit} 
+            sx={{ mt: 1, width: '100%' }}
+            noValidate
+          >
             <TextField
               margin="normal"
               required
@@ -93,6 +119,16 @@ const Login = () => {
               autoFocus
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  '&.Mui-focused fieldset': {
+                    borderColor: orange[700],
+                  },
+                },
+                '& .MuiInputLabel-root.Mui-focused': {
+                  color: orange[700],
+                },
+              }}
             />
             <TextField
               margin="normal"
@@ -105,27 +141,75 @@ const Login = () => {
               autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  '&.Mui-focused fieldset': {
+                    borderColor: orange[700],
+                  },
+                },
+                '& .MuiInputLabel-root.Mui-focused': {
+                  color: orange[700],
+                },
+              }}
             />
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ 
+                mt: 3, 
+                mb: 2,
+                bgcolor: orange[700],
+                '&:hover': {
+                  bgcolor: orange[800],
+                },
+              }}
             >
-              {isRegistering ? 'Register' : 'Sign In'}
+              {isRegistering ? 'Register' : 'Login'}
             </Button>
             <Button
               fullWidth
               variant="text"
-              onClick={() => setIsRegistering(!isRegistering)}
+              onClick={() => {
+                setIsRegistering(!isRegistering);
+                setError('');
+                setSuccess('');
+                setUsername('');
+                setPassword('');
+              }}
+              sx={{
+                color: orange[700],
+                '&:hover': {
+                  bgcolor: orange[50],
+                },
+              }}
             >
               {isRegistering
-                ? 'Already have an account? Sign in'
+                ? 'Already have an account? Login'
                 : "Don't have an account? Register"}
             </Button>
           </Box>
         </Paper>
       </Box>
+      <Snackbar
+        open={Boolean(success)}
+        autoHideDuration={6000}
+        onClose={handleCloseSuccess}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert 
+          onClose={handleCloseSuccess} 
+          severity="success" 
+          sx={{ 
+            width: '100%',
+            '& .MuiAlert-icon': {
+              color: orange[700],
+            },
+          }}
+        >
+          {success}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };
