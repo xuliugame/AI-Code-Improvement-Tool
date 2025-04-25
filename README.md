@@ -1,131 +1,191 @@
-# AiCodeTools
+# AI Code Optimization Tool
 
-AiCodeTools is a modern web application that provides AI-powered code assistance and analysis tools. The project features a React-based frontend and a Flask-based backend, offering a seamless user experience for developers.
+An intelligent code optimization tool that leverages AI to analyze and improve your code. This application provides suggestions for code optimization and generates optimized versions of your code.
 
 ## Features
 
-- **User Authentication**: Secure login and registration system with JWT token-based authentication
-- **AI Code Analysis**: Integration with OpenAI API for code analysis and suggestions
-- **Modern UI**: Responsive and user-friendly interface built with React
-- **RESTful API**: Well-structured backend API with proper error handling
-- **Database Integration**: SQLAlchemy-based database for user management and data persistence
+-  Instant code optimization suggestions
+-  Smart code analysis
+- Code history tracking
+- Clean and modern UI
+- Secure user authentication
+-  History management
 
-## Project Structure
+## Tech Stack
 
-```
-AiCodeTools/
-├── .github/
-│   └── workflows/          # GitHub Actions CI/CD configuration
-├── backend/
-│   ├── api/               # API endpoints and business logic
-│   │   └── openai_api.py  # OpenAI API integration and endpoints
-│   ├── user/              # User management and authentication
-│   │   ├── models.py      # Database models
-│   │   └── user.py        # User-related routes and controllers
-│   ├── tests/             # Backend test suite
-│   ├── app.py            # Main Flask application
-│   ├── config.py         # Configuration management
-│   ├── requirements.txt  # Python dependencies
-│   └── .env             # Environment variables
-├── frontend/
-│   ├── src/              # React source code
-│   │   ├── App.js       # Main application component
-│   │   ├── contexts/    # React context providers
-│   │   ├── pages/       # Page components
-│   │   │   ├── Login.js # Authentication page
-│   │   │   └── MainPage.js # Main dashboard
-│   │   ├── components/  # Reusable UI components
-│   │   ├── services/    # API service functions
-│   │   └── utils/       # Utility functions
-│   ├── public/          # Static assets
-│   └── package.json     # Node.js dependencies
-├── .gitignore
-└── README.md
-```
+### Frontend
+- React.js
+- Material-UI
+- Axios for API calls
+- JWT for authentication
+
+### Backend
+- Python
+- Flask
+- PostgreSQL
+- OpenAI GPT API
+- SQLAlchemy
+- JWT Authentication
 
 ## Getting Started
 
 ### Prerequisites
 
-Before you begin, ensure you have the following installed:
 - Node.js (v14 or higher)
 - Python (v3.8 or higher)
-- PostgreSQL (v12 or higher)
+- PostgreSQL
 - OpenAI API key
 
 ### Installation
 
-1. **Clone the repository**:
+1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/AiCodeTools.git
+git clone [repository-url]
 cd AiCodeTools
 ```
 
-2. **Set up the backend**:
+2. Set up the backend:
 ```bash
 cd backend
-
-# Create and activate virtual environment
-python -m venv .venv
-# On Windows:
-.venv\Scripts\activate
-# On macOS/Linux:
-source .venv/bin/activate
-
-# Install Python dependencies
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
-
-# Create .env file with the following content:
-# OPENAI_API_KEY=your_openai_api_key
-# DATABASE_URL=postgresql://username:password@localhost:5432/dbname
-# JWT_SECRET_KEY=your_jwt_secret_key
 ```
 
-3. **Set up the database**:
-```bash
-# Start PostgreSQL service
-# On Windows:
-net start postgresql
-# On macOS/Linux:
-sudo service postgresql start
-
-# Create database
-createdb aicode_db
-
-# Initialize database tables
-flask db upgrade
+3. Configure environment variables:
+Create a `.env` file in the backend directory with:
+```
+OPENAI_API_KEY=your_openai_api_key
+DATABASE_URL=postgresql://username:password@localhost:5432/dbname
+JWT_SECRET_KEY=your_jwt_secret
 ```
 
-4. **Set up the frontend**:
+4. Set up the frontend:
 ```bash
-cd frontend
+cd ../frontend
 npm install
 ```
 
 ### Running the Application
 
-1. **Start the backend server**:
+1. Start the backend server:
 ```bash
 cd backend
-# Activate virtual environment if not already activated
-# On Windows:
-.venv\Scripts\activate
-# On macOS/Linux:
-source .venv/bin/activate
-
-# Start Flask server
-flask run
+python app.py
 ```
-The backend server will be available at `http://127.0.0.1:5000`
 
-2. **Start the frontend development server**:
+2. Start the frontend development server:
 ```bash
 cd frontend
 npm start
 ```
-The frontend will automatically open in your default browser at `http://localhost:3000`
 
-### Development Workflow
+3. Access the application at `http://localhost:3000`
+
+## Usage
+
+1. Register/Login to your account
+2. Enter your code in the input box
+3. Select the programming language
+4. Click "Generate Suggestions" to get optimization recommendations
+5. View the optimized code and suggestions
+6. Access your optimization history in the history panel
+
+## Features in Detail
+
+### Code Optimization
+- Analyzes code structure and patterns
+- Provides specific optimization suggestions
+- Generates optimized code versions
+- Supports multiple programming languages
+
+### User Authentication
+- Secure JWT-based authentication
+- Protected API endpoints
+- User session management
+
+### History Management
+- Saves all optimization attempts
+- View past optimizations
+- Delete history entries
+- Timestamp tracking
+
+### Modern UI/UX
+- Responsive design
+- Intuitive interface
+- Real-time feedback
+- Clean and professional look
+
+## API Endpoints
+
+### Authentication
+- POST `/register` - User registration
+- POST `/login` - User login
+- GET `/profile` - Get user profile
+
+### Code Optimization
+- POST `/optimize` - Submit code for optimization
+- GET `/history` - Get optimization history
+- DELETE `/history/<id>` - Delete history entry
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- OpenAI for providing the GPT API
+- Material-UI for the component library
+- Flask community for the excellent web framework
+
+## Project Structure
+
+```
+AiCodeTools/
+├── backend/
+│   ├── api/               # API endpoints and business logic
+│   │   └── openai_api.py  # OpenAI API integration
+│   ├── user/              # User management and authentication
+│   │   ├── models.py      # Database models
+│   │   └── user.py        # User authentication routes
+│   ├── tests/             # Backend test suite
+│   ├── app.py            # Main Flask application
+│   ├── config.py         # Configuration settings
+│   ├── init_db.py        # Database initialization script
+│   ├── requirements.txt  # Python dependencies
+│   └── .env             # Environment variables
+├── frontend/
+│   ├── src/
+│   │   ├── components/   # Reusable components
+│   │   │   ├── CodeInput.js    # Code input component
+│   │   │   ├── History.js      # History display component
+│   │   │   ├── NavBar.js       # Navigation bar component
+│   │   │   └── Suggestions.js  # Suggestions display component
+│   │   ├── contexts/     # React contexts
+│   │   │   └── AuthContext.js  # Authentication context
+│   │   ├── pages/        # Page components
+│   │   │   ├── Login.js        # Login page
+│   │   │   └── MainPage.js     # Main application page
+│   │   ├── services/     # API services
+│   │   │   └── api.js          # API integration
+│   │   ├── App.js        # Root component
+│   │   ├── index.js      # Application entry point
+│   │   └── styles.css    # Global styles
+│   ├── public/           # Static assets
+│   └── package.json      # Node.js dependencies
+├── .gitignore            # Git ignore rules
+└── README.md             # Project documentation
+```
+
+## Development Workflow
 
 1. **Backend Development**:
    - The backend uses Flask with SQLAlchemy for database operations
@@ -158,14 +218,6 @@ The frontend will automatically open in your default browser at `http://localhos
      - `JWT_SECRET_KEY`: Secret key for JWT token generation
    - Frontend requires:
      - `REACT_APP_API_URL`: Backend API URL (defaults to http://127.0.0.1:5000)
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
 
 
 

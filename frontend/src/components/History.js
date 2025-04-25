@@ -1,5 +1,5 @@
 import React from 'react';
-import { List, ListItem, ListItemText, IconButton, Divider, Paper } from '@mui/material';
+import { List, ListItem, IconButton, Paper } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 // History component for displaying code optimization history

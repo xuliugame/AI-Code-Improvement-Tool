@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormControl, InputLabel, Select, MenuItem, Button, Box, IconButton } from '@mui/material';
+import { FormControl, InputLabel, Select, MenuItem, Button, Box } from '@mui/material';
 import { orange } from '@mui/material/colors';
 import ClearIcon from '@mui/icons-material/Clear';
 
