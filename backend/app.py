@@ -9,6 +9,7 @@ from api.openai_api import api_bp  # OpenAI API blueprint
 from config import Config  # Application configuration
 import os
 from flask_jwt_extended import JWTManager  # JWT authentication management
+import sqlite3
 
 # Create Flask application instance
 app = Flask(__name__)
@@ -23,6 +24,29 @@ app.config['JWT_HEADER_TYPE'] = 'Bearer'  # Token type
 
 CORS(app)  # Enable cross-origin support
 db.init_app(app)  # Initialize database
+
+# Initialize database tables if they don't exist
+def setup_database():
+    """Set up the database and create tables if they don't exist"""
+    db_path = app.config['SQLALCHEMY_DATABASE_URI'].replace('sqlite:///', '')
+    
+    # Create the database directory if it doesn't exist
+    os.makedirs(os.path.dirname(db_path), exist_ok=True)
+    
+    # Create tables if they don't exist
+    with app.app_context():
+        try:
+            # Try to query the users table
+            db.session.execute('SELECT 1 FROM users')
+        except (sqlite3.OperationalError, Exception):
+            # If the query fails, create all tables
+            db.create_all()
+            print("Database tables created successfully!")
+        else:
+            print("Database tables already exist!")
+
+# Set up database on startup
+setup_database()
 
 # Initialize JWT manager
 jwt = JWTManager(app)
@@ -68,25 +92,8 @@ app.register_blueprint(api_bp)  # Register API blueprint
 def health_check():
     return "OK", 200
 
-def init_database():
-    """Initialize database tables if they don't exist"""
-    with app.app_context():
-        try:
-            # Check if the users table exists
-            inspector = db.inspect(db.engine)
-            if not inspector.has_table("users"):
-                # Create all tables if they don't exist
-                db.create_all()
-                print("Database tables created successfully!")
-            else:
-                print("Database tables already exist!")
-        except Exception as e:
-            print(f"Error checking/creating database tables: {str(e)}")
-            raise
-
 # Main program entry point
 if __name__ == '__main__':
-    init_database()  # Initialize database tables
     app.run(debug=True)  # Start application in debug mode
 
 

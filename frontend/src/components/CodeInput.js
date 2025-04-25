@@ -1,9 +1,9 @@
 import React from 'react';
-import { FormControl, InputLabel, Select, MenuItem, Button, Box } from '@mui/material';
+import { FormControl, InputLabel, Select, MenuItem, Button, Box, CircularProgress } from '@mui/material';
 import { orange } from '@mui/material/colors';
 import ClearIcon from '@mui/icons-material/Clear';
 
-const CodeInput = ({ code, setCode, language, setLanguage, onGenerate }) => {
+const CodeInput = ({ code, setCode, language, setLanguage, onGenerate, isLoading }) => {
   const handleClear = () => {
     setCode('');
   };
@@ -22,6 +22,7 @@ const CodeInput = ({ code, setCode, language, setLanguage, onGenerate }) => {
               value={language}
               label="Language"
               onChange={(e) => setLanguage(e.target.value)}
+              disabled={isLoading}
               sx={{
                 '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
                   borderColor: orange[700],
@@ -41,23 +42,36 @@ const CodeInput = ({ code, setCode, language, setLanguage, onGenerate }) => {
             value={code}
             onChange={(e) => setCode(e.target.value)}
             placeholder="Paste your code here..."
+            disabled={isLoading}
           />
           {/* Buttons container */}
           <div className="button-container" style={{ display: 'flex', gap: '1rem' }}>
             <Button
               variant="contained"
               onClick={onGenerate}
+              disabled={isLoading}
               sx={{ 
                 flex: 1,
                 bgcolor: orange[700],
                 '&:hover': {
                   bgcolor: orange[800],
                 },
+                '&.Mui-disabled': {
+                  bgcolor: orange[200],
+                  color: 'rgba(0, 0, 0, 0.26)'
+                }
               }}
             >
-              Generate Suggestions
+              {isLoading ? (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <CircularProgress size={20} color="inherit" />
+                  <span>Analyzing Code...</span>
+                </Box>
+              ) : (
+                'Generate Suggestions'
+              )}
             </Button>
-            {code && (
+            {code && !isLoading && (
               <Button
                 variant="outlined"
                 onClick={handleClear}

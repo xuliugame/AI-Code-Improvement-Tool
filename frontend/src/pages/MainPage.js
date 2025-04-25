@@ -10,6 +10,7 @@ const MainPage = () => {
   const [language, setLanguage] = useState("python");
   const [suggestions, setSuggestions] = useState("");
   const [history, setHistory] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     loadHistory();
@@ -39,6 +40,9 @@ const MainPage = () => {
       return;
     }
 
+    setIsLoading(true);
+    setSuggestions("Analyzing your code and generating optimization suggestions...");
+
     try {
       const response = await codeService.optimizeCode(code, language);
       if (response.data) {
@@ -50,6 +54,8 @@ const MainPage = () => {
     } catch (error) {
       console.error('Error optimizing code:', error);
       setSuggestions("Error: " + (error.response?.data?.message || error.message || "Failed to optimize code"));
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -63,6 +69,7 @@ const MainPage = () => {
           language={language}
           setLanguage={setLanguage}
           onGenerate={handleOptimize}
+          isLoading={isLoading}
         />
         <Suggestions suggestions={suggestions} />
         <History 

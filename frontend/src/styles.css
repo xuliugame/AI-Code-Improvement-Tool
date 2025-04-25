@@ -18,17 +18,27 @@ body {
   min-height: 600px;
 }
 
+/* Suggestions Container */
+.suggestions-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  max-height: 100%;
+  overflow: hidden;
+}
+
 /* Box Container */
 .box {
   flex: 1;
   background: #fff;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   height: 100%;
-  min-height: 500px;
 }
 
 /* Box Title */
@@ -43,24 +53,27 @@ body {
 .input-box-content {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  flex: 1;
+  min-height: 0;
 }
 
 /* Code Input */
 .code-input {
-  width: 100%;
   flex: 1;
-  min-height: 400px;
+  width: 100%;
   padding: 1rem;
   border: 1px solid #e0e0e0;
   border-radius: 4px;
-  font-family: 'Consolas', 'Monaco', monospace;
-  font-size: 16px;
+  font-family: 'Fira Code', 'Consolas', 'Monaco', monospace;
+  font-size: 14px;
   line-height: 1.6;
   resize: none;
   box-sizing: border-box;
   background: white;
   margin-bottom: 1rem;
+  color: #0066cc;
+  min-height: 0;
+  overflow: auto;
 }
 
 .code-input:focus {
@@ -77,7 +90,7 @@ body {
   background: transparent;
   border-radius: 4px;
   font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-size: 17px;
+  font-size: 16px;
   line-height: 1.8;
   white-space: pre-wrap;
   overflow-y: auto;
@@ -85,7 +98,7 @@ body {
   margin: 0;
   color: #1a2a3a;
   letter-spacing: 0.3px;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);
+  min-height: 0;
 }
 
 .suggestions-text {
@@ -106,6 +119,16 @@ body {
   font-size: 18px;
   display: block;
   margin: 1.2rem 0 0.8rem 0;
+}
+
+/* 数字标题样式 */
+.suggestions-text strong:first-child,
+.suggestions-text p strong {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1a2a3a;
+  display: block;
+  margin: 1.5rem 0 1rem 0;
 }
 
 /* 特殊标题样式 */
@@ -129,20 +152,48 @@ body {
 
 /* 代码部分样式 */
 .suggestions-text pre,
-.suggestions-text code {
+.suggestions-text code,
+.code-block {
   font-family: 'Fira Code', 'Consolas', 'Monaco', monospace;
-  font-size: 16px;
-  color: #1a2a3a;
-  background: rgba(255, 255, 255, 0.5);
-  padding: 0.2rem 0.4rem;
-  border-radius: 3px;
-  margin: 0.8rem 0;
+  font-size: 14px;
+  color: #0066cc;
+  background: #ffffff;
+  padding: 1rem;
+  border-radius: 4px;
+  margin: 1.2rem 0 2rem 0;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  line-height: 1.6;
 }
 
 /* 段落样式 */
 .suggestions-text p {
   margin: 0.8rem 0;
+  color: #1a2a3a;
+  font-size: 16px;
+}
+
+/* 数字列表样式 */
+.suggestions-text ol {
+  margin: 0.8rem 0;
+  padding-left: 1.5rem;
+}
+
+.suggestions-text ol > li {
+  margin: 0.4rem 0;
+}
+
+/* 确保数字标题后的内容有正确的间距 */
+.suggestions-text ol > li > p:first-child {
+  display: inline;
+  font-size: 20px;
+  font-weight: 800;
+  color: #1a2a3a;
+}
+
+.suggestions-text ol > li > p:not(:first-child) {
+  margin-top: 1rem;
+  font-size: 16px;
+  font-weight: normal;
 }
 
 /* Suggestions Content */
@@ -151,10 +202,11 @@ body {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: #fff3e0 !important;
+  background: #f8f9fa !important;
   border-radius: 8px !important;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05), 
               0 1px 2px rgba(0, 0, 0, 0.05) !important;
+  padding: 0.5rem;
 }
 
 /* History Content Styles */
@@ -162,50 +214,58 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  padding: 1rem;
 }
 
 .history-section {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1rem;
 }
 
 .section-title {
   color: #1a2a3a;
-  font-weight: 700;
-  font-size: 18px;
+  font-weight: 600;
+  font-size: 16px;
   display: block;
   margin: 0;
+  padding-top: 0.5rem;
 }
 
+/* Code Paper */
 .code-paper {
-  background: #fff3e0 !important;
-  border-radius: 4px !important;
+  width: 100%;
+  padding: 0;
+  background-color: #f8f9fa;
+  border-radius: 4px;
   overflow: hidden;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05) !important;
 }
 
+/* Code Block */
 .code-block {
-  margin: 0 !important;
-  padding: 1rem !important;
-  font-family: 'Fira Code', 'Consolas', 'Monaco', monospace !important;
-  font-size: 16px !important;
-  line-height: 1.6 !important;
-  color: #1a2a3a !important;
-  background: transparent !important;
-  white-space: pre-wrap !important;
-  overflow-x: auto !important;
+  font-family: 'Fira Code', 'Consolas', 'Monaco', monospace;
+  font-size: 14px;
+  color: #0066cc;
+  background-color: #f8f9fa;
+  padding: 1rem;
+  border-radius: 4px;
+  margin: 0;
+  line-height: 1.6;
+  white-space: pre;
+  overflow-x: auto;
 }
 
 /* History Box */
 .history-box {
   flex: 1;
   overflow-y: auto;
-  height: 100%;
+  background: #fff;
+  min-height: 0;
+  max-height: 100%;
 }
 
 .history-box pre {
-  background: #fff3e0;
+  background: #f8f9fa;
   padding: 0.8rem;
   border-radius: 4px;
   font-family: 'Consolas', 'Monaco', monospace;
@@ -241,7 +301,7 @@ body {
   color: #666;
   text-align: center;
   flex: 1;
-  background: #fff3e0;
+  background: #f8f9fa;
   border-radius: 8px;
 }
 
@@ -253,9 +313,12 @@ body {
     min-height: unset;
   }
   
+  .suggestions-container {
+    flex-direction: column;
+  }
+  
   .box {
-    min-height: 400px;
-    margin-bottom: 1rem;
+    min-height: 200px;
   }
   
   .code-input,
@@ -263,3 +326,16 @@ body {
     min-height: 200px;
   }
 }
+
+/* 标题和段落间距 */
+.suggestions-text h3,
+.suggestions-text h4,
+.suggestions-text .section-title {
+  margin: 1.5rem 0 1rem 0;
+  color: #1a2a3a;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+/* 添加代码字体 */
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap');

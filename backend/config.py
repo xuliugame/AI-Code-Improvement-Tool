@@ -6,8 +6,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class Config:
-    # Database configuration - using PostgreSQL with fallback to SQLite
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'sqlite:///app.db')
+    # Get the absolute path to the backend directory
+    BACKEND_DIR = os.path.abspath(os.path.dirname(__file__))
+    
+    # Database configuration - using SQLite with absolute path
+    SQLALCHEMY_DATABASE_URI = f'sqlite:///{os.path.join(BACKEND_DIR, "app.db")}'
     
     # Database connection pool settings
     SQLALCHEMY_POOL_SIZE = 10

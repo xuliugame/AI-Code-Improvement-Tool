@@ -1,5 +1,5 @@
 import pytest
-from user.models import User, CodeHistory, db
+from user.models import User, CodeHistory, db, bcrypt
 from app import app
 import json
 from datetime import timedelta
@@ -15,6 +15,9 @@ def client():
     app.config['JWT_HEADER_TYPE'] = 'Bearer'
     with app.test_client() as client:
         with app.app_context():
+            # Initialize bcrypt with the app
+            bcrypt.init_app(app)
+            # Create all database tables
             db.create_all()
             yield client
             db.session.remove()
@@ -58,8 +61,8 @@ def test_optimize_code(client):
     assert 'optimized_code' in data
     assert 'suggestions' in data
 
-def test_get_history(client):
-    # Create a history record first
+def create_test_history(client):
+    """Helper function to create a test history record and return its ID"""
     client.post('/register', json={
         'username': 'testuser',
         'password': 'testpass'
@@ -77,6 +80,15 @@ def test_get_history(client):
             'language': 'python'
         })
     
+    response = client.get('/history',
+        headers={'Authorization': f'Bearer {token}'})
+    data = json.loads(response.data)
+    return data[0]['id'], token
+
+def test_get_history(client):
+    # Create a history record first
+    _, token = create_test_history(client)
+    
     # Get history records
     response = client.get('/history',
         headers={'Authorization': f'Bearer {token}'})
@@ -87,21 +99,18 @@ def test_get_history(client):
     assert 'original_code' in data[0]
     assert 'optimized_code' in data[0]
     assert 'optimization_suggestions' in data[0]
-    
-    # Return the first history record's ID
-    return data[0]['id']
 
-def test_delete_history(client, auth_token):
+def test_delete_history(client):
     # Get a history record ID first
-    history_id = test_get_history(client)
+    history_id, token = create_test_history(client)
     
     # Delete history record
     response = client.delete(f'/history/{history_id}',
-        headers={'Authorization': f'Bearer {auth_token}'})
+        headers={'Authorization': f'Bearer {token}'})
     assert response.status_code == 200
     
     # Verify the history record has been deleted
     response = client.get('/history',
-        headers={'Authorization': f'Bearer {auth_token}'})
+        headers={'Authorization': f'Bearer {token}'})
     data = json.loads(response.data)
     assert len(data) == 0 

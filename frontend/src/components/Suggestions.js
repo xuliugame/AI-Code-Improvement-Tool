@@ -7,8 +7,7 @@ const Suggestions = ({ suggestions }) => {
   // 如果建议为空，显示占位符
   if (!suggestions) {
     return (
-      <div className="box output-box">
-        <h2 className="box-title">Optimization Suggestions</h2>
+      <div className="box">
         <div className="empty-state">
           <Typography variant="body1" color="textSecondary">
             Enter your code and click "Generate Suggestions" to get optimization recommendations.
@@ -18,32 +17,18 @@ const Suggestions = ({ suggestions }) => {
     );
   }
 
+  // 提取代码块
+  const extractCode = (text) => {
+    const codeMatch = text.match(/```(?:python)?\n([\s\S]*?)```/);
+    return codeMatch ? codeMatch[1].trim() : '';
+  };
+
   // 格式化建议文本
   const formatSuggestions = (text) => {
-    // 移除 Markdown 符号并格式化文本
-    let formattedText = text
+    return text
       .replace(/\*\*/g, '')  // 移除加粗符号
-      .replace(/```[a-z]*\n/g, '')  // 移除代码块开始标记
-      .replace(/```/g, '')  // 移除代码块结束标记
+      .replace(/```[a-z]*\n[\s\S]*?```/g, '')  // 移除所有代码块
       .trim();
-
-    // 处理特定标题的加粗
-    formattedText = formattedText
-      .replace(/^Optimized Version:/gm, '<strong>Optimized Version:</strong>')
-      .replace(/^Why is this better\?/gm, '<strong>Why is this better?</strong>')
-      .replace(/^Summary:/gm, '<strong>Summary:</strong>')
-      .replace(/^Further Optimization with Generators/gm, '<strong>Further Optimization with Generators</strong>');
-
-    // 如果文本包含分节标记，进行格式化
-    const parts = formattedText.split('2) Optimized Code');
-    if (parts.length === 2) {
-      const suggestions = parts[0].replace('1) Optimization Suggestions', '').trim();
-      const optimizedCode = parts[1].trim();
-      
-      return `<strong>Optimization Suggestions:</strong>\n\n${suggestions}\n\n<strong>Optimized Code:</strong>\n\n${optimizedCode}`;
-    }
-    
-    return formattedText;
   };
 
   // 将格式化后的文本转换为HTML
@@ -51,15 +36,80 @@ const Suggestions = ({ suggestions }) => {
     return { __html: text.replace(/\n/g, '<br>') };
   };
 
+  // 提取优化后的代码
+  const optimizedCode = extractCode(suggestions);
+  
+  // 格式化建议文本（移除代码块）
+  const formattedSuggestions = formatSuggestions(suggestions);
+
   return (
-    <div className="box output-box">
-      <h2 className="box-title">Optimization Suggestions</h2>
-      <Paper elevation={0} className="suggestions-content">
-        <div 
-          className="output suggestions-text"
-          dangerouslySetInnerHTML={createMarkup(formatSuggestions(suggestions))}
-        />
-      </Paper>
+    <div className="box" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+      <div style={{ 
+        display: 'flex', 
+        flexDirection: 'column', 
+        gap: '2rem',
+        height: '100%',
+        overflow: 'hidden'
+      }}>
+        {/* Optimization Suggestions Section */}
+        <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
+          <h1 style={{ 
+            fontSize: '1.8rem', 
+            fontWeight: '600', 
+            color: '#f57c00',
+            marginBottom: '1rem',
+            flex: 'none'
+          }}>
+            Optimization Suggestions
+          </h1>
+          <Paper 
+            elevation={0} 
+            sx={{ 
+              backgroundColor: '#f8f9fa',
+              padding: '1.5rem',
+              borderRadius: '8px',
+              boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.05)',
+              flex: 1,
+              overflow: 'auto',
+              minHeight: 0
+            }}
+          >
+            <div 
+              className="output suggestions-text"
+              dangerouslySetInnerHTML={createMarkup(formattedSuggestions)}
+            />
+          </Paper>
+        </div>
+
+        {/* Optimized Code Section */}
+        <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
+          <h1 style={{ 
+            fontSize: '1.8rem', 
+            fontWeight: '600', 
+            color: '#f57c00',
+            marginBottom: '1rem',
+            flex: 'none'
+          }}>
+            Optimized Code
+          </h1>
+          <Paper 
+            elevation={0} 
+            sx={{ 
+              backgroundColor: '#f8f9fa',
+              padding: '1.5rem',
+              borderRadius: '8px',
+              boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.05)',
+              flex: 1,
+              overflow: 'auto',
+              minHeight: 0
+            }}
+          >
+            <pre className="code-block" style={{ margin: 0 }}>
+              {optimizedCode}
+            </pre>
+          </Paper>
+        </div>
+      </div>
     </div>
   );
 };
