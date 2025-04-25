@@ -37,6 +37,7 @@ jobs:
         run: |
           cd backend
           python -m pip install --upgrade pip
+          pip install Werkzeug==2.0.3
           pip install -r requirements.txt
           pip install pytest
 
