@@ -69,14 +69,19 @@ def health_check():
     return "OK", 200
 
 def init_database():
-    """Initialize database tables"""
+    """Initialize database tables if they don't exist"""
     with app.app_context():
         try:
-            # Create all tables
-            db.create_all()
-            print("Database tables created successfully!")
+            # Check if the users table exists
+            inspector = db.inspect(db.engine)
+            if not inspector.has_table("users"):
+                # Create all tables if they don't exist
+                db.create_all()
+                print("Database tables created successfully!")
+            else:
+                print("Database tables already exist!")
         except Exception as e:
-            print(f"Error creating database tables: {str(e)}")
+            print(f"Error checking/creating database tables: {str(e)}")
             raise
 
 # Main program entry point
