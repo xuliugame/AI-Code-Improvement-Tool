@@ -37,13 +37,13 @@ jobs:
         run: |
           cd backend
           python -m pip install --upgrade pip
-          pip install Werkzeug==2.0.3
           pip install -r requirements.txt
           pip install pytest
 
       - name: Initialize Database
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/testdb
+          PYTHONPATH: ${{ github.workspace }}/backend
         run: |
           cd backend
           python init_db.py init
@@ -53,6 +53,7 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/testdb
           JWT_SECRET_KEY: test-jwt-secret
+          PYTHONPATH: ${{ github.workspace }}/backend
         run: |
           cd backend
-          pytest
+          python -m pytest
