@@ -39,16 +39,18 @@ jobs:
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           FLASK_ENV: production
+          FLASK_APP: app.py
         run: |
           cd backend
-          gunicorn --bind 0.0.0.0:5000 app:app --daemon
+          gunicorn --bind 0.0.0.0:5000 app:app --daemon --access-logfile - --error-logfile -
           echo "Waiting for backend to start..."
           sleep 10
           curl http://localhost:5000/ || echo "Backend health check failed"
 
       - name: Build Frontend
         env:
-          REACT_APP_API_URL: http://localhost:5000
+          REACT_APP_API_URL: https://xuliugame.github.io/AI-Code-Improvement-Tool/api
+          PUBLIC_URL: /AI-Code-Improvement-Tool
         run: |
           cd frontend
           npm run build

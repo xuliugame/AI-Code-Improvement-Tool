@@ -4,8 +4,8 @@ import axios from 'axios';
 // Get API base URL based on environment
 const getBaseURL = () => {
   if (process.env.NODE_ENV === 'production') {
-    // In production (GitHub Pages), use the deployed backend URL
-    return 'https://xuliugame.github.io/AI-Code-Improvement-Tool';
+    // In production (GitHub Pages), use the full backend URL
+    return 'https://xuliugame.github.io/AI-Code-Improvement-Tool/api';
   }
   // In development, use the proxy setup from package.json
   return '';
@@ -21,39 +21,45 @@ const api = axios.create({
   withCredentials: true
 });
 
-// Request interceptor for adding authentication token
-api.interceptors.request.use(
-  (config) => {
-    // Get token from localStorage
-    const token = localStorage.getItem('token');
-    if (token) {
-      // Add token to Authorization header
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
+// Add request interceptor to log requests in development
+api.interceptors.request.use(request => {
+  if (process.env.NODE_ENV === 'development') {
+    console.log('Request:', request);
   }
-);
+  // Get token from localStorage
+  const token = localStorage.getItem('token');
+  if (token) {
+    // Add token to Authorization header
+    request.headers.Authorization = `Bearer ${token}`;
+  }
+  return request;
+}, error => {
+  if (process.env.NODE_ENV === 'development') {
+    console.error('Request Error:', error);
+  }
+  return Promise.reject(error);
+});
 
-// Response interceptor for handling authentication errors
-api.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  (error) => {
-    // Handle 401 Unauthorized errors
-    if (error.response && error.response.status === 401) {
-      // Only redirect when not on login page
-      if (!window.location.pathname.includes('/login')) {
-        localStorage.removeItem('token');
-        window.location.href = '/login';
-      }
-    }
-    return Promise.reject(error);
+// Add response interceptor to log responses in development
+api.interceptors.response.use(response => {
+  if (process.env.NODE_ENV === 'development') {
+    console.log('Response:', response);
   }
-);
+  return response;
+}, error => {
+  if (process.env.NODE_ENV === 'development') {
+    console.error('Response Error:', error);
+  }
+  // Handle 401 Unauthorized errors
+  if (error.response && error.response.status === 401) {
+    // Only redirect when not on login page
+    if (!window.location.pathname.includes('/login')) {
+      localStorage.removeItem('token');
+      window.location.href = '/login';
+    }
+  }
+  return Promise.reject(error);
+});
 
 // Authentication service methods
 export const authService = {
