@@ -6,9 +6,10 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 // History component for displaying code optimization history
 const History = ({ history, onDelete }) => {
+  // State for tracking which history item is expanded
   const [expandedId, setExpandedId] = React.useState(null);
 
-  // Function to format the date string
+  // Format date string to a readable format
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleString('en-US', {
@@ -21,15 +22,16 @@ const History = ({ history, onDelete }) => {
     });
   };
 
-  // Function to clean text from markdown symbols
+  // Clean text by removing markdown symbols
   const cleanText = (text) => {
     return text
-      .replace(/\*\*/g, '')  // 移除加粗符号
-      .replace(/```[a-z]*\n/g, '')  // 移除代码块开始标记
-      .replace(/```/g, '')  // 移除代码块结束标记
+      .replace(/\*\*/g, '')  // Remove bold symbols
+      .replace(/```[a-z]*\n/g, '')  // Remove code block start markers
+      .replace(/```/g, '')  // Remove code block end markers
       .trim();
   };
 
+  // Toggle expansion state of a history item
   const handleExpand = (id) => {
     setExpandedId(expandedId === id ? null : id);
   };
@@ -49,7 +51,7 @@ const History = ({ history, onDelete }) => {
               border: '1px solid rgba(0, 0, 0, 0.05)'
             }}
           >
-            {/* Header */}
+            {/* History item header with language and actions */}
             <div
               onClick={() => handleExpand(item.id)}
               style={{
@@ -72,6 +74,7 @@ const History = ({ history, onDelete }) => {
                   alignItems: 'center',
                   gap: '12px'
                 }}>
+                  {/* Language badge */}
                   <div style={{
                     backgroundColor: '#1a2a3a',
                     color: '#fff',
@@ -82,15 +85,18 @@ const History = ({ history, onDelete }) => {
                   }}>
                     {item.language}
                   </div>
+                  {/* Timestamp */}
                   <span style={{ color: '#666', fontSize: '13px' }}>
                     {formatDate(item.created_at)}
                   </span>
                 </div>
+                {/* Action buttons */}
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
                   gap: '12px'
                 }}>
+                  {/* Delete button */}
                   <IconButton
                     size="small"
                     onClick={(e) => {
@@ -108,6 +114,7 @@ const History = ({ history, onDelete }) => {
                   >
                     <DeleteIcon fontSize="small" />
                   </IconButton>
+                  {/* Expand/collapse button */}
                   {expandedId === item.id ? 
                     <KeyboardArrowUpIcon sx={{ color: '#666', fontSize: 20 }} /> : 
                     <KeyboardArrowDownIcon sx={{ color: '#666', fontSize: 20 }} />
@@ -128,10 +135,11 @@ const History = ({ history, onDelete }) => {
               </div>
             </div>
 
-            {/* Expanded Content */}
+            {/* Expanded content section */}
             {expandedId === item.id && (
               <div style={{ padding: '16px', backgroundColor: '#fff' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                  {/* Original code section */}
                   <div>
                     <div style={{
                       fontSize: '13px',
@@ -160,6 +168,7 @@ const History = ({ history, onDelete }) => {
                       </pre>
                     </Paper>
                   </div>
+                  {/* Optimization suggestions section */}
                   <div>
                     <div style={{
                       fontSize: '13px',
@@ -189,6 +198,7 @@ const History = ({ history, onDelete }) => {
                       </pre>
                     </Paper>
                   </div>
+                  {/* Optimized code section */}
                   <div>
                     <div style={{
                       fontSize: '13px',

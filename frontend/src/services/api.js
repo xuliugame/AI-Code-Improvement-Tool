@@ -32,7 +32,7 @@ api.interceptors.response.use(
   (error) => {
     // Handle 401 Unauthorized errors
     if (error.response && error.response.status === 401) {
-      // 只在非登录页面时才重定向
+      // Only redirect when not on login page
       if (!window.location.pathname.includes('/login')) {
         localStorage.removeItem('token');
         window.location.href = '/login';
@@ -63,7 +63,7 @@ export const authService = {
       const response = await api.post('/login', { username, password });
       return { success: true, data: response.data };
     } catch (error) {
-      // 不要在登录失败时重定向
+      // Do not redirect on login failure
       return {
         success: false,
         error: error.response?.data?.message || 'Invalid username or password'

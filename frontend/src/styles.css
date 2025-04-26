@@ -105,12 +105,12 @@ body {
   position: relative;
 }
 
-/* 移除左侧边框样式 */
+/* Remove left border style */
 .suggestions-text::before {
   display: none;
 }
 
-/* 标题样式 */
+/* Title style */
 .suggestions-text strong,
 .suggestions-text h3,
 .suggestions-text h4 {
@@ -121,7 +121,7 @@ body {
   margin: 1.2rem 0 0.8rem 0;
 }
 
-/* 数字标题样式 */
+/* Numbered title style */
 .suggestions-text strong:first-child,
 .suggestions-text p strong {
   font-size: 20px;
@@ -131,7 +131,7 @@ body {
   margin: 1.5rem 0 1rem 0;
 }
 
-/* 特殊标题样式 */
+/* Special title style */
 .suggestions-text .section-title {
   color: #1a2a3a;
   font-weight: 700;
@@ -150,7 +150,7 @@ body {
   margin: 0.4rem 0;
 }
 
-/* 代码部分样式 */
+/* Code section style */
 .suggestions-text pre,
 .suggestions-text code,
 .code-block {
@@ -165,14 +165,14 @@ body {
   line-height: 1.6;
 }
 
-/* 段落样式 */
+/* Paragraph style */
 .suggestions-text p {
   margin: 0.8rem 0;
   color: #1a2a3a;
   font-size: 16px;
 }
 
-/* 数字列表样式 */
+/* Numbered list style */
 .suggestions-text ol {
   margin: 0.8rem 0;
   padding-left: 1.5rem;
@@ -182,7 +182,7 @@ body {
   margin: 0.4rem 0;
 }
 
-/* 确保数字标题后的内容有正确的间距 */
+/* Ensure proper spacing after numbered titles */
 .suggestions-text ol > li > p:first-child {
   display: inline;
   font-size: 20px;
@@ -194,6 +194,16 @@ body {
   margin-top: 1rem;
   font-size: 16px;
   font-weight: normal;
+}
+
+/* Title and paragraph spacing */
+.suggestions-text h3,
+.suggestions-text h4,
+.suggestions-text .section-title {
+  margin: 1.5rem 0 1rem 0;
+  color: #1a2a3a;
+  font-weight: 600;
+  font-size: 16px;
 }
 
 /* Suggestions Content */
@@ -327,15 +337,5 @@ body {
   }
 }
 
-/* 标题和段落间距 */
-.suggestions-text h3,
-.suggestions-text h4,
-.suggestions-text .section-title {
-  margin: 1.5rem 0 1rem 0;
-  color: #1a2a3a;
-  font-weight: 600;
-  font-size: 16px;
-}
-
-/* 添加代码字体 */
+/* Add code font */
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap');

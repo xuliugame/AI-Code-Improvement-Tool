@@ -1,10 +1,10 @@
-// Import React
+// Import React and Material-UI components
 import React from 'react';
 import { Paper, Typography } from '@mui/material';
 
 // Suggestions component for displaying code optimization suggestions
 const Suggestions = ({ suggestions }) => {
-  // 如果建议为空，显示占位符
+  // If suggestions are empty, show placeholder
   if (!suggestions) {
     return (
       <div className="box">
@@ -17,29 +17,29 @@ const Suggestions = ({ suggestions }) => {
     );
   }
 
-  // 提取代码块
+  // Extract code block from markdown text using regex
   const extractCode = (text) => {
     const codeMatch = text.match(/```(?:python)?\n([\s\S]*?)```/);
     return codeMatch ? codeMatch[1].trim() : '';
   };
 
-  // 格式化建议文本
+  // Format suggestion text by removing markdown symbols and code blocks
   const formatSuggestions = (text) => {
     return text
-      .replace(/\*\*/g, '')  // 移除加粗符号
-      .replace(/```[a-z]*\n[\s\S]*?```/g, '')  // 移除所有代码块
+      .replace(/\*\*/g, '')  // Remove bold symbols
+      .replace(/```[a-z]*\n[\s\S]*?```/g, '')  // Remove all code blocks
       .trim();
   };
 
-  // 将格式化后的文本转换为HTML
+  // Convert formatted text to HTML with line breaks
   const createMarkup = (text) => {
     return { __html: text.replace(/\n/g, '<br>') };
   };
 
-  // 提取优化后的代码
+  // Extract optimized code from suggestions
   const optimizedCode = extractCode(suggestions);
   
-  // 格式化建议文本（移除代码块）
+  // Format suggestion text (remove code blocks)
   const formattedSuggestions = formatSuggestions(suggestions);
 
   return (

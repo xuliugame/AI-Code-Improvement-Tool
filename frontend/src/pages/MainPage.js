@@ -47,7 +47,7 @@ const MainPage = () => {
       const response = await codeService.optimizeCode(code, language);
       if (response.data) {
         setSuggestions(response.data.suggestions || response.data.optimized_code || "No suggestions returned.");
-        await loadHistory();  // 重新加载历史记录
+        await loadHistory();  // Reload history
       } else {
         setSuggestions("No response received from the server.");
       }
