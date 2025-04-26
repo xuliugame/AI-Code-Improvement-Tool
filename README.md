@@ -132,13 +132,64 @@ npm start
 - GET `/history` - Get optimization history
 - DELETE `/history/<id>` - Delete history entry
 
-## Contributing
+## Project Structure
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+```
+AiCodeTools/
+├── backend/
+│   ├── api/               # API endpoints and business logic
+│   │   └── openai_api.py  # OpenAI API integration
+│   ├── user/              # User management and authentication
+│   │   ├── models.py      # Database models
+│   │   └── user.py        # User authentication routes
+│   ├── tests/             # Backend test suite
+│   ├── app.py            # Main Flask application
+│   ├── config.py         # Configuration settings
+│   └── requirements.txt  # Python dependencies
+├── frontend/
+│   ├── src/
+│   │   ├── components/   # Reusable components
+│   │   ├── contexts/     # React contexts
+│   │   ├── pages/        # Page components
+│   │   ├── services/     # API services
+│   │   ├── App.js        # Root component
+│   │   └── styles.css    # Global styles
+│   └── package.json      # Node.js dependencies
+└── README.md             # Project documentation
+```
+
+## Development Workflow
+
+1. **Backend Development**:
+   - The backend uses Flask with SQLAlchemy for database operations
+   - API endpoints are defined in the `api/` directory
+   - User authentication is handled through JWT tokens
+
+2. **Frontend Development**:
+   - The frontend is built with React and Material-UI
+   - API calls are made using Axios
+   - State management is handled through React Context
+   - Routing is managed with React Router
+
+3. **Testing**:
+   - Backend tests use SQLite for faster testing:
+     ```bash
+     cd backend
+     pytest
+     ```
+   - Frontend tests can be run with:
+     ```bash
+     cd frontend
+     npm test
+     ```
+
+4. **Environment Variables**:
+   - Backend requires:
+     - `OPENAI_API_KEY`: Your OpenAI API key
+     - `DATABASE_URL`: PostgreSQL connection string (production)
+     - `JWT_SECRET_KEY`: Secret key for JWT token generation
+   - Frontend requires:
+     - `REACT_APP_API_URL`: Backend API URL (defaults to http://127.0.0.1:5000)
 
 ## License
 
