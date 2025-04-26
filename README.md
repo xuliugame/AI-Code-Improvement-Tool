@@ -31,20 +31,24 @@ An intelligent code optimization tool that leverages AI to analyze and improve y
 
 ### Prerequisites
 
-- Node.js (v14 or higher)
-- Python (v3.8 or higher)
-- PostgreSQL
+- Node.js (v18 or higher)
+- Python (v3.9 or higher)
+- PostgreSQL (v12 or higher)
 - OpenAI API key
 
 ### Installation
 
 1. Clone the repository:
 ```bash
-git clone [repository-url]
-cd AiCodeTools
+git clone https://github.com/xuliugame/AI-Code-Improvement-Tool.git
+cd AI-Code-Improvement-Tool
 ```
 
-2. Set up the backend:
+2. Set up PostgreSQL:
+- Create a new PostgreSQL database
+- Note down your database connection details (host, database name, user, password)
+
+3. Set up the backend:
 ```bash
 cd backend
 python -m venv venv
@@ -52,15 +56,15 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-3. Configure environment variables:
+4. Configure environment variables:
 Create a `.env` file in the backend directory with:
 ```
 OPENAI_API_KEY=your_openai_api_key
-DATABASE_URL=postgresql://username:password@localhost:5432/dbname
 JWT_SECRET_KEY=your_jwt_secret
+DATABASE_URL=postgresql://user:password@host:5432/dbname
 ```
 
-4. Set up the frontend:
+5. Set up the frontend:
 ```bash
 cd ../frontend
 npm install

@@ -3,17 +3,22 @@ from dotenv import load_dotenv
 load_dotenv()  # Load environment variables
 from flask import Flask, jsonify
 from flask_cors import CORS  # For handling cross-origin requests
-from user.models import db  # Database models
+from user.models import db, bcrypt  # Database models and bcrypt
 from user.user import auth_bp  # User authentication blueprint
 from api.openai_api import api_bp  # OpenAI API blueprint
 from config import Config  # Application configuration
 import os
 from flask_jwt_extended import JWTManager  # JWT authentication management
-import sqlite3
+from sqlalchemy_utils import database_exists, create_database
+from sqlalchemy import inspect
 
 # Create Flask application instance
 app = Flask(__name__)
 app.config.from_object(Config)  # Load configuration
+
+# Initialize extensions
+bcrypt.init_app(app)  # Initialize bcrypt first
+db.init_app(app)  # Then initialize database
 
 # JWT configuration
 app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY', 'dev-jwt-secret')  # JWT secret key
@@ -35,27 +40,38 @@ CORS(app, resources={
     }
 })
 
-db.init_app(app)  # Initialize database
+def check_table_exists(table_name):
+    """Check if a table exists in the database"""
+    inspector = inspect(db.engine)
+    return table_name in inspector.get_table_names()
 
 # Initialize database tables if they don't exist
 def setup_database():
     """Set up the database and create tables if they don't exist"""
-    db_path = app.config['SQLALCHEMY_DATABASE_URI'].replace('sqlite:///', '')
-    
-    # Create the database directory if it doesn't exist
-    os.makedirs(os.path.dirname(db_path), exist_ok=True)
-    
-    # Create tables if they don't exist
     with app.app_context():
         try:
-            # Try to query the users table
-            db.session.execute('SELECT 1 FROM users')
-        except (sqlite3.OperationalError, Exception):
-            # If the query fails, create all tables
-            db.create_all()
-            print("Database tables created successfully!")
-        else:
-            print("Database tables already exist!")
+            # Create database if it doesn't exist
+            if not database_exists(app.config['SQLALCHEMY_DATABASE_URI']):
+                create_database(app.config['SQLALCHEMY_DATABASE_URI'])
+                print("Database created successfully!")
+                # Create all tables for new database
+                db.create_all()
+                print("Database tables created successfully!")
+            else:
+                # Check if required tables exist
+                required_tables = ['users', 'code_history']
+                missing_tables = [table for table in required_tables if not check_table_exists(table)]
+                
+                if missing_tables:
+                    print(f"Creating missing tables: {', '.join(missing_tables)}")
+                    db.create_all()
+                    print("Missing tables created successfully!")
+                else:
+                    print("All required tables already exist!")
+                    
+        except Exception as e:
+            print(f"Error setting up database: {str(e)}")
+            raise
 
 # Set up database on startup
 setup_database()

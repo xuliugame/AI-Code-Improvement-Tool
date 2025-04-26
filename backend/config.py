@@ -9,8 +9,8 @@ class Config:
     # Get the absolute path to the backend directory
     BACKEND_DIR = os.path.abspath(os.path.dirname(__file__))
     
-    # Database configuration - using SQLite with absolute path
-    SQLALCHEMY_DATABASE_URI = f'sqlite:///{os.path.join(BACKEND_DIR, "app.db")}'
+    # Database configuration - using PostgreSQL
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'postgresql://postgres:postgres@localhost:5432/aicode')
     
     # Database connection pool settings
     SQLALCHEMY_POOL_SIZE = 10
@@ -25,4 +25,4 @@ class Config:
     
     # JWT Configuration
     JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", "dev-jwt-secret")
-    JWT_ACCESS_TOKEN_EXPIRES = 7200  # Increase token expiration to 2 hours
+    JWT_ACCESS_TOKEN_EXPIRES = 7200  # Token expiration to 2 hours

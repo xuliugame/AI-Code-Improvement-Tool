@@ -6,5 +6,6 @@ flask-jwt-extended
 openai
 python-dotenv
 psycopg2-binary
+sqlalchemy-utils
 pytz
 
