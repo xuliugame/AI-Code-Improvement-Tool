@@ -22,7 +22,19 @@ app.config['JWT_TOKEN_LOCATION'] = ['headers']  # Token location
 app.config['JWT_HEADER_NAME'] = 'Authorization'  # Token header name
 app.config['JWT_HEADER_TYPE'] = 'Bearer'  # Token type
 
-CORS(app)  # Enable cross-origin support
+# Configure CORS
+CORS(app, resources={
+    r"/*": {
+        "origins": [
+            "http://localhost:3000",
+            "https://xuliugame.github.io"
+        ],
+        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"],
+        "supports_credentials": True
+    }
+})
+
 db.init_app(app)  # Initialize database
 
 # Initialize database tables if they don't exist

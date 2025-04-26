@@ -23,11 +23,6 @@ jobs:
           cd frontend
           npm install
 
-      - name: Build Project
-        run: |
-          cd frontend
-          npm run build
-
       - name: Setup Python for Backend
         uses: actions/setup-python@v2
         with:
@@ -38,14 +33,25 @@ jobs:
           cd backend
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          pip install gunicorn
 
       - name: Start Backend Server
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          FLASK_ENV: production
         run: |
           cd backend
-          python app.py &
-          sleep 5  # Wait for backend to start
+          gunicorn --bind 0.0.0.0:5000 app:app --daemon
+          echo "Waiting for backend to start..."
+          sleep 10
+          curl http://localhost:5000/ || echo "Backend health check failed"
+
+      - name: Build Frontend
+        env:
+          REACT_APP_API_URL: http://localhost:5000
+        run: |
+          cd frontend
+          npm run build
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4

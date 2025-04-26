@@ -4,9 +4,8 @@ import axios from 'axios';
 // Get API base URL based on environment
 const getBaseURL = () => {
   if (process.env.NODE_ENV === 'production') {
-    // In production (GitHub Pages), use the same origin with /api prefix
-    const origin = window.location.origin;
-    return `${origin}/api`;
+    // In production (GitHub Pages), use the deployed backend URL
+    return 'https://xuliugame.github.io/AI-Code-Improvement-Tool';
   }
   // In development, use the proxy setup from package.json
   return '';
@@ -18,6 +17,8 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  // Add withCredentials to handle CORS
+  withCredentials: true
 });
 
 // Request interceptor for adding authentication token
