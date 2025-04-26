@@ -5,6 +5,11 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Login from './pages/Login';
 import MainPage from './pages/MainPage';
 
+// Get the base URL for routing
+const getBasename = () => {
+  return process.env.NODE_ENV === 'production' ? '/AI-Code-Improvement-Tool' : '';
+};
+
 // PrivateRoute component for protected routes
 const PrivateRoute = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();
@@ -23,7 +28,7 @@ const App = () => {
   return (
     // Wrap the entire app with AuthProvider for authentication context
     <AuthProvider>
-      <Router>
+      <Router basename={getBasename()}>
         <Routes>
           {/* Public route for login page */}
           <Route path="/login" element={<Login />} />

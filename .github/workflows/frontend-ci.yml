@@ -19,12 +19,33 @@ jobs:
           node-version: 18
 
       - name: Install Dependencies
-        run: npm install
-        working-directory: frontend
+        run: |
+          cd frontend
+          npm install
 
       - name: Build Project
-        run: npm run build
-        working-directory: frontend
+        run: |
+          cd frontend
+          npm run build
+
+      - name: Setup Python for Backend
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: Install Backend Dependencies
+        run: |
+          cd backend
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Start Backend Server
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          cd backend
+          python app.py &
+          sleep 5  # Wait for backend to start
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
