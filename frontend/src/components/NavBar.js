@@ -6,7 +6,7 @@ import { useAuth } from '../contexts/AuthContext';
 // Navigation bar component
 const NavBar = () => {
   const { user, logout } = useAuth();
-
+  
   return (
     <AppBar 
       position="static" 

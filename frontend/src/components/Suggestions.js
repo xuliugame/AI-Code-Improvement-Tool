@@ -19,16 +19,17 @@ const Suggestions = ({ suggestions }) => {
 
   // Extract code block from markdown text using regex
   const extractCode = (text) => {
-    const codeMatch = text.match(/```(?:python)?\n([\s\S]*?)```/);
+    const codeMatch = text.match(/```(?:\w+)?\n([\s\S]*?)```/);
     return codeMatch ? codeMatch[1].trim() : '';
   };
 
-  // Format suggestion text by removing markdown symbols and code blocks
+  // Format suggestion text, automatically style section titles
   const formatSuggestions = (text) => {
-    return text
-      .replace(/\*\*/g, '')  // Remove bold symbols
-      .replace(/```[a-z]*\n[\s\S]*?```/g, '')  // Remove all code blocks
-      .trim();
+    // Remove markdown bold symbols and code blocks
+    let cleaned = text.replace(/\*\*/g, '').replace(/```[a-z]*\n[\s\S]*?```/g, '').trim();
+    // Use regex to wrap section titles (e.g. 1. Code Analysis) with a styled span
+    cleaned = cleaned.replace(/^(\d+\.[^\n]+)/gm, '<span class="suggestion-section-title">$1</span>');
+    return cleaned;
   };
 
   // Convert formatted text to HTML with line breaks
@@ -115,3 +116,16 @@ const Suggestions = ({ suggestions }) => {
 };
 
 export default Suggestions;
+
+// Add style for section titles
+const style = document.createElement('style');
+style.innerHTML = `
+.suggestion-section-title {
+  display: block;
+  font-size: 1.25em;
+  font-weight: bold;
+  margin: 1.2em 0 0.5em 0;
+  color: #1a1a1a;
+}
+`;
+document.head.appendChild(style);

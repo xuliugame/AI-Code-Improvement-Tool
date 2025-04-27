@@ -113,7 +113,7 @@ const History = ({ history, onDelete }) => {
                     }}
                   >
                     <DeleteIcon fontSize="small" />
-                  </IconButton>
+                </IconButton>
                   {/* Expand/collapse button */}
                   {expandedId === item.id ? 
                     <KeyboardArrowUpIcon sx={{ color: '#666', fontSize: 20 }} /> : 

@@ -99,7 +99,7 @@ def test_get_history(client):
     assert 'original_code' in data[0]
     assert 'optimized_code' in data[0]
     assert 'optimization_suggestions' in data[0]
-
+    
 def test_delete_history(client):
     # Get a history record ID first
     history_id, token = create_test_history(client)
