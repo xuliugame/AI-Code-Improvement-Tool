@@ -49,7 +49,7 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(true);
       }
       
-      return result; // 返回完整的结果对象
+      return result; // Returns the complete result object
     } catch (error) {
       console.error('Login error:', error);
       return {

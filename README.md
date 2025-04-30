@@ -1,189 +1,185 @@
 # AI Code Optimization Tool
 
-An intelligent web application that leverages OpenAI GPT-4.1 to analyze, optimize, and refactor code in Python, JavaScript, Java, and C++.  
-Get instant, professional code review suggestions and improved code versions to help you write cleaner, more efficient, and maintainable code.
-
----
+An intelligent code optimization tool that leverages AI to analyze and improve your code. This application provides suggestions for code optimization and generates optimized versions of your code.
 
 ## Features
 
-- **AI-Powered Code Optimization**: Supports Python, JavaScript, Java, and C++.
-- **Detailed Analysis & Suggestions**: Explains code issues, offers actionable improvements, and summarizes changes.
-- **One-Click Code Refactoring**: Instantly generates optimized code with best practices.
-- **History Tracking**: View, manage, and revisit all your past code optimizations.
-- **Modern UI/UX**: Responsive, intuitive interface built with React and Material-UI.
-- **Secure Authentication**: JWT-based user login and session management.
-
----
+-  Instant code optimization suggestions
+-  Smart code analysis
+- Code history tracking
+- Clean and modern UI
+- Secure user authentication
+-  History management
 
 ## Tech Stack
 
-- **Frontend**: React.js, Material-UI, Axios, JWT
-- **Backend**: Python, Flask, SQLAlchemy, PostgreSQL, OpenAI GPT API, JWT
+### Frontend
+- React.js
+- Material-UI
+- Axios for API calls
+- JWT for authentication
 
----
+### Backend
+- Python
+- Flask
+- PostgreSQL
+- OpenAI GPT API
+- SQLAlchemy
+- JWT Authentication
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js (v18+)
-- Python (v3.9+)
-- PostgreSQL (v12+)
-- OpenAI API Key
+- Node.js (v18 or higher)
+- Python (v3.9 or higher)
+- PostgreSQL (v12 or higher)
+- OpenAI API key
 
 ### Installation
 
-1. **Clone the repository**
-    ```bash
-    git clone https://github.com/xuliugame/AI-Code-Improvement-Tool.git
-    cd AI-Code-Improvement-Tool
-    ```
+1. Clone the repository:
+```bash
+git clone https://github.com/xuliugame/AI-Code-Improvement-Tool.git
+cd AI-Code-Improvement-Tool
+```
 
-2. **Set up PostgreSQL**
-    - Create a new database and note the connection details.
+2. Set up PostgreSQL:
+- Create a new PostgreSQL database
+- Note down your database connection details (host, database name, user, password)
 
-3. **Backend Setup**
-    ```bash
-    cd backend
-    python -m venv venv
-    source venv/bin/activate  # On Windows: venv\Scripts\activate
-    pip install -r requirements.txt
-    ```
-    - Create a `.env` file in `backend/`:
-      ```
-      OPENAI_API_KEY=your_openai_api_key
-      JWT_SECRET_KEY=your_jwt_secret
-      DATABASE_URL=postgresql://user:password@host:5432/dbname
-      ```
+3. Set up the backend:
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+```
 
-4. **Frontend Setup**
-    ```bash
-    cd ../frontend
-    npm install
-    ```
+4. Configure environment variables:
+Create a `.env` file in the backend directory with:
+```
+OPENAI_API_KEY=your_openai_api_key
+JWT_SECRET_KEY=your_jwt_secret
+DATABASE_URL=postgresql://user:password@host:5432/dbname
+```
+
+5. Set up the frontend:
+```bash
+cd ../frontend
+npm install
+```
 
 ### Running the Application
 
-- **Start Backend**
-    ```bash
-    cd backend
-    python app.py
-    ```
-- **Start Frontend**
-    ```bash
-    cd frontend
-    npm start
-    ```
-- Visit [http://localhost:3000](http://localhost:3000)
+1. Start the backend server:
+```bash
+cd backend
+python app.py
+```
 
----
+2. Start the frontend development server:
+```bash
+cd frontend
+npm start
+```
+
+3. Access the application at `http://localhost:3000`
 
 ## Usage
 
-1. Register or log in.
-2. Paste your code and select the language.
-3. Click **Generate Suggestions**.
-4. Review the AI's analysis, suggestions, and optimized code.
-5. Copy, use, or save your improved code.
-6. Browse your optimization history at any time.
+1. Register/Login to your account
+2. Enter your code in the input box
+3. Select the programming language
+4. Click "Generate Suggestions" to get optimization recommendations
+5. View the optimized code and suggestions
+6. Access your optimization history in the history panel
 
----
+## Features in Detail
+
+### Code Optimization
+- Analyzes code structure and patterns
+- Provides specific optimization suggestions
+- Generates optimized code versions
+- Supports multiple programming languages
+
+### User Authentication
+- Secure JWT-based authentication
+- Protected API endpoints
+- User session management
+
+### History Management
+- Saves all optimization attempts
+- View past optimizations
+- Delete history entries
+- Timestamp tracking
+
+### Modern UI/UX
+- Responsive design
+- Intuitive interface
+- Real-time feedback
+- Clean and professional look
 
 ## API Endpoints
 
-- `POST /register` — Register a new user
-- `POST /login` — User login
-- `POST /optimize` — Submit code for AI optimization
-- `GET /history` — Retrieve optimization history
-- `DELETE /history/<id>` — Delete a history entry
+### Authentication
+- POST `/register` - User registration
+- POST `/login` - User login
+- GET `/profile` - Get user profile
 
----
+### Code Optimization
+- POST `/optimize` - Submit code for optimization
+- GET `/history` - Get optimization history
+- DELETE `/history/<id>` - Delete history entry
+
+
+
+
+
+## Acknowledgments
+
+- OpenAI for providing the GPT API
+- Material-UI for the component library
+- Flask community for the excellent web framework
 
 ## Project Structure
 
 ```
 AiCodeTools/
 ├── backend/
-│   ├── api/                  # API endpoints and OpenAI integration
-│   │   ├── openai_api.py     # Handles code optimization requests via OpenAI
-│   │   └── _init_.py         # API package initializer
-│   ├── user/                 # User management and authentication
-│   │   ├── models.py         # Database models (User, CodeHistory, etc.)
-│   │   ├── manage.py         # User management utilities
-│   │   ├── history.py        # Code optimization history logic
-│   │   ├── __init__.py       # User package initializer
-│   │   └── user.py           # User authentication routes
-│   ├── tests/                # Backend test suite
-│   ├── app.py                # Main Flask application
-│   ├── config.py             # Configuration settings
-│   ├── requirements.txt      # Python dependencies
-│   ├── app.db                # SQLite database (for development/testing)
-│   └── instance/             # Flask instance folder (runtime files)
+│   ├── api/               # API endpoints and business logic
+│   │   └── openai_api.py  # OpenAI API integration
+│   ├── user/              # User management and authentication
+│   │   ├── models.py      # Database models
+│   │   └── user.py        # User authentication routes
+│   ├── tests/             # Backend test suite
+│   ├── app.py            # Main Flask application
+│   ├── config.py         # Configuration settings
+│   ├── init_db.py        # Database initialization script
+│   ├── requirements.txt  # Python dependencies
+│   └── .env             # Environment variables
 ├── frontend/
 │   ├── src/
-│   │   ├── components/       # Reusable React components
-│   │   │   ├── CodeInput.js      # Code input editor
-│   │   │   ├── History.js        # Optimization history panel
-│   │   │   ├── NavBar.js         # Top navigation bar
-│   │   │   └── Suggestions.js    # AI suggestions and optimized code display
-│   │   ├── contexts/         # React context providers
-│   │   │   └── AuthContext.js    # Authentication context
-│   │   ├── pages/            # Page-level React components
-│   │   │   ├── Login.js          # Login page
-│   │   │   └── MainPage.js       # Main application page
-│   │   ├── services/         # API service utilities
-│   │   │   └── api.js            # API call abstraction
-│   │   ├── App.js            # Root React component
-│   │   ├── index.js          # React entry point
-│   │   └── styles.css        # Global styles
-│   └── package.json          # Frontend dependencies
-├── .gitignore                # Git ignore rules
-├── README.md                 # Project documentation
-└── package-lock.json         # Node.js lockfile
+│   │   ├── components/   # Reusable components
+│   │   │   ├── CodeInput.js    # Code input component
+│   │   │   ├── History.js      # History display component
+│   │   │   ├── NavBar.js       # Navigation bar component
+│   │   │   └── Suggestions.js  # Suggestions display component
+│   │   ├── contexts/     # React contexts
+│   │   │   └── AuthContext.js  # Authentication context
+│   │   ├── pages/        # Page components
+│   │   │   ├── Login.js        # Login page
+│   │   │   └── MainPage.js     # Main application page
+│   │   ├── services/     # API services
+│   │   │   └── api.js          # API integration
+│   │   ├── App.js        # Root component
+│   │   ├── index.js      # Application entry point
+│   │   └── styles.css    # Global styles
+│   ├── public/           # Static assets
+│   └── package.json      # Node.js dependencies
+├── .gitignore            # Git ignore rules
+└── README.md             # Project documentation
 ```
-
----
-
-## Testing
-
-- **Backend**:  
-  Run tests with:
-  ```bash
-  cd backend
-  pytest
-  ```
-- **Frontend**:  
-  Run tests with:
-  ```bash
-  cd frontend
-  npm test
-  ```
-
----
-
-## Environment Variables
-
-- **Backend**:
-  - `OPENAI_API_KEY`
-  - `DATABASE_URL`
-  - `JWT_SECRET_KEY`
-- **Frontend**:
-  - `REACT_APP_API_URL` (defaults to http://127.0.0.1:5000)
-
----
-
-## License
-
-All rights reserved. This project is the intellectual property of the author. No part of this project may be reproduced, distributed, or transmitted in any form or by any means without the prior written permission of the author.
-
----
-
-## Acknowledgments
-
-- [OpenAI](https://openai.com/) for the GPT API
-- [Material-UI](https://mui.com/) for UI components
-- [Flask](https://flask.palletsprojects.com/) for the backend framework
 
 ## Development Workflow
 
@@ -191,6 +187,7 @@ All rights reserved. This project is the intellectual property of the author. No
    - The backend uses Flask with SQLAlchemy for database operations
    - API endpoints are defined in the `api/` directory
    - User authentication is handled through JWT tokens
+   - Database migrations are managed using Flask-Migrate
 
 2. **Frontend Development**:
    - The frontend is built with React and Material-UI
@@ -204,7 +201,11 @@ All rights reserved. This project is the intellectual property of the author. No
      cd backend
      pytest
      ```
-   
+   - Frontend tests can be run with:
+     ```bash
+     cd frontend
+     npm test
+     ```
 
 4. **Environment Variables**:
    - Backend requires:
